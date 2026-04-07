@@ -1,9 +1,10 @@
 import { profileService } from '@/api/services/profileService';
+import { ApiError } from '@/types/error/ApiError';
 import type { Profile } from '@/types/types';
 import { readonly, ref } from 'vue';
 
 const profile = ref<Profile | null>(null);
-const isLoading = ref<boolean>(false);
+const isLoading = ref(false);
 
 export function useProfile () {
   const fetchByUsername = async (username: string) => {
@@ -11,6 +12,10 @@ export function useProfile () {
 
     try {
       profile.value = await profileService.fetchByUsername(username);
+    } catch (error: unknown) {
+      if (error instanceof ApiError) {
+        profile.value = null;
+      }
     } finally {
       isLoading.value = false;
     }

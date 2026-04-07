@@ -1,3 +1,5 @@
+import { ApiError } from '@/types/error/ApiError';
+
 export const api = {
 
   baseUrl: import.meta.env.VITE_API_URL,
@@ -16,7 +18,11 @@ export const api = {
 
     if (!res.ok) {
       const errorData = await res.json().catch(() => ({}));
-      throw new Error(errorData.message || `HTTP error : ${res.status}`);
+      throw new ApiError(
+        errorData.statusCode,
+        errorData.errorCode,
+        errorData.message
+      );
     }
 
     const data = await res.json();
