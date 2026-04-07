@@ -85,6 +85,14 @@ onMounted(async () => {
 
     background-color: #ffffff;
   }
+
+  @media (max-width: 490px) {
+    .profile-container {
+      margin-top: 0px;
+      min-height: 100dvh;
+      border-radius: 0px;
+    }
+  }
 }
 
 .profile-header {
