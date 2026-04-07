@@ -13,11 +13,13 @@ defineProps<{link:Link}>();
 <style scoped>
 
 .link-wrapper {
+  width: inherit;
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  padding: 10px 20px;
+  text-decoration: none;
+  padding: 15px 20px;
   cursor: pointer;
 
   background-color: #222;

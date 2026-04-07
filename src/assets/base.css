@@ -60,10 +60,6 @@
 }
 
 body {
-  min-height: 100vh;
-  /* color: var(--color-text);
-  background: var(--color-background); */
-
   font-family:
     Inter,
     -apple-system,
@@ -81,4 +77,8 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  min-height: 100dvh;
 }
