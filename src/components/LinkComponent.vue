@@ -2,16 +2,12 @@
 import type { Link } from '@/types/types';
 
 defineProps<{link:Link}>();
-
-function redirect(url: string) {
-  window.open(url, '_blank');
-}
 </script>
 
 <template>
-<div class="link-wrapper" @click="redirect(link.url)">
+<a class="link-wrapper" :href="link.url" target="_blank">
   <p class="link-title">{{ link.title }}</p>
-</div>
+</a>
 </template>
 
 <style scoped>
