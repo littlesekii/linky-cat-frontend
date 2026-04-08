@@ -6,53 +6,52 @@ const { profile } = useProfile();
 </script>
 
 <template>
-  <div class="profile-background">
-    <div class="profile-container">
+<div class="background">
+  <div class="container">
 
-      <header class="profile-header">
-        <div class="profile-image"></div>
-        <div class="profile-info">
-          <h1 class="profile-name">
-            {{ profile?.displayName }}
-          </h1>
-          <!-- <p class="profile-username">
-            @{{ username }}
-          </p> -->
-          <h2 class="profile-bio">
-            {{ profile?.bio }}
-          </h2>
-        </div>
-      </header>
+    <header class="header">
+      <div class="header-image"></div>
+      <div class="header-info">
+        <h1 class="header-info-name">
+          {{ profile?.displayName }}
+        </h1>
+        <!-- <p class="profile-username">
+          @{{ username }}
+        </p> -->
+        <h2 class="header-info-bio">
+          {{ profile?.bio }}
+        </h2>
+      </div>
+    </header>
 
-      <nav class="profile-links">
-        <ul v-if="profile?.links && profile.links.length > 0">
-          <li v-for="link in profile?.links" :key="link.id">
-            <LinkComponent :link="link" />
-          </li>
-        </ul>
+    <nav class="links">
+      <ul v-if="profile?.links && profile.links.length > 0">
+        <li v-for="link in profile?.links" :key="link.id">
+          <LinkComponent :link="link" />
+        </li>
+      </ul>
 
-        <div class="no-links" v-else>
-          <p>No links yet.</p>
-        </div>
-      </nav>
-    </div>
+      <div class="links-empty" v-else>
+        <p>No links yet.</p>
+      </div>
+    </nav>
   </div>
+</div>
 </template>
 
 
 <style scoped>
-.profile-background {
+.background {
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
 
-  height: inherit;
+  min-height: inherit;
 
   background-color: #222;
 }
 
-.profile-container {
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -73,14 +72,14 @@ const { profile } = useProfile();
 }
 
 @media (max-width: 490px) {
-  .profile-container {
+  .container {
     margin-top: 0px;
     min-height: 100dvh;
     border-radius: 0px;
   }
 }
 
-.profile-header {
+.header {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -88,50 +87,50 @@ const { profile } = useProfile();
   width: 100%;
 
   color: #222;
-
-  .profile-image {
-    width: 100px;
-    height: 100px;
-
-    border-radius: 100%;
-
-    background-image: url("@/assets/profile.jpg");
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-
-  .profile-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    margin-top: 5px;
-
-    .profile-name {
-      font-size: 24px;
-      font-weight: 600;
-
-      text-align: center;
-    }
-
-    .profile-username {
-      font-size: 12pt;
-    }
-
-    .profile-bio {
-      font-size: 16px;
-      font-weight: 400;
-      text-align: center;
-    }
-  }
 }
 
-.profile-links {
+.header-image {
+  width: 100px;
+  height: 100px;
+
+  border-radius: 100%;
+
+  background-image: url("@/assets/profile.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.header-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-top: 5px;
+}
+
+.header-info h1 {
+  font-size: 24px;
+  font-weight: 600;
+
+  text-align: center;
+}
+
+.header-info-username {
+  font-size: 12pt;
+}
+
+.header-info h2 {
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.links {
   width: 100%;
 }
 
-.profile-links ul {
+.links ul {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -139,11 +138,11 @@ const { profile } = useProfile();
   list-style: none;
 }
 
-.profile-links li {
+.links li {
   width: 100%;
 }
 
-.no-links p {
+.links-empty p {
   text-align: center;
 }
 </style>

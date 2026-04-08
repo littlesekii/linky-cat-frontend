@@ -23,5 +23,7 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-
+.profile {
+  min-height: inherit;
+}
 </style>
