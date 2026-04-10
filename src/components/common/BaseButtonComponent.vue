@@ -1,11 +1,13 @@
 <script setup lang="ts">
 defineProps<{
   label: string,
+  disabled?: boolean
+  type?: 'button' | 'submit'
 }>();
 </script>
 
 <template>
-<button class="button">
+<button class="button" :type="type || 'button'" :disabled="disabled">
   {{ label }}
 </button>
 </template>
@@ -25,5 +27,11 @@ defineProps<{
   border-radius: 10px;
 
   cursor: pointer;
+}
+.button:disabled {
+  color: #666;
+  background-color: #DDD;
+  border: 1px solid #DDD;
+  cursor: default;
 }
 </style>
