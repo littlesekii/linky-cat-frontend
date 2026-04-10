@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const model = defineModel<string>();
+
 defineProps<{
   label: string,
   type?: string,
@@ -11,6 +13,7 @@ defineProps<{
   <label :for="label">{{ label }}</label>
   <input
     :id="label"
+    v-model="model"
     :type="type || 'text'"
     :placeholder="placeholder">
 </div>
