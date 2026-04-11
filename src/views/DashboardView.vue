@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { useAuth } from '@/composables/useAuth';
+
+const { logout } = useAuth();
 
 </script>
 
 <template>
 <div>
-  Dashboard
+  Dashboard <button @click="logout">logout</button>
 </div>
 </template>
 

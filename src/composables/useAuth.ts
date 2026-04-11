@@ -6,9 +6,9 @@ import { readonly, ref } from 'vue';
 
 const isLoading = ref(false);
 
-const authStore = useAuthStore();
-
 export function useAuth() {
+  const authStore = useAuthStore();
+
   const login = async (req: AuthLoginRequest) => {
     isLoading.value = true;
 
@@ -21,8 +21,20 @@ export function useAuth() {
     }
   };
 
+  const logout = async () => {
+    isLoading.value = true;
+
+    try {
+      authStore.setToken(null);
+      router.push('/login');
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
   return {
     isLoading: readonly(isLoading),
-    login
+    login,
+    logout
   };
 }
