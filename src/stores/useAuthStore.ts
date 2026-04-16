@@ -6,14 +6,14 @@ export const useAuthStore = defineStore('auth', () => {
 
   const isAuthenticated = computed(() => !!token.value);
 
-  function setToken(newToken: string | null) {
+  const setToken = (newToken: string | null) => {
     token.value = newToken;
 
     if (newToken === null)
       localStorage.removeItem('token');
     else
       localStorage.setItem('token', newToken);
-  }
+  };
 
   return {
     token: readonly(token),

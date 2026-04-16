@@ -4,7 +4,7 @@ type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-async function request <ResultType>(url: string, method: HttpMethod, body?: unknown): Promise<ResultType> {
+const request = async <ResultType>(url: string, method: HttpMethod, body?: unknown): Promise<ResultType> => {
   const payload: RequestInit = {
     method: method,
     headers: {
@@ -25,8 +25,7 @@ async function request <ResultType>(url: string, method: HttpMethod, body?: unkn
   }
 
   return await res.json();
-}
-
+};
 
 export const api = {
   get:    <ResultType>(url: string): Promise<ResultType> => request(url, 'GET'),
