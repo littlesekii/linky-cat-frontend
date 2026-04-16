@@ -6,6 +6,7 @@ import { useAuth } from '@/composables/useAuth';
 import type { AuthLoginRequest } from '@/types/dto/AuthDTO';
 import { ApiError } from '@/types/error/ApiError';
 import { ERROR_MESSAGE } from '@/utils/messages/error';
+import AuthHeaderComponent from './AuthHeaderComponent.vue';
 
 const { login, isLoading } = useAuth();
 
@@ -40,6 +41,11 @@ async function submit() {
 </script>
 
 <template>
+<div class="login-form">
+  <AuthHeaderComponent
+    title="Welcome back"
+    subtitle="Log in to your account 🐈‍⬛"
+  />
 <form class="form" @submit.prevent="submit">
   <div class="inputs">
     <BaseInputComponent v-model="credentials.username" label="Username" type="text" />
@@ -49,6 +55,7 @@ async function submit() {
   <img v-else class="loading-icon" src="@/assets/loading.svg">
   <p class="error-message">{{ errorMessage }}</p>
 </form>
+</div>
 </template>
 
 <style scoped>

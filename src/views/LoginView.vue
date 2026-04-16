@@ -7,11 +7,6 @@ import LoginFormComponent from '@/components/auth/LoginFormComponent.vue';
 <template>
 <main class="login">
   <section class="left-container">
-    <header class="header">
-      <h1 class="title">Welcome back</h1>
-      <p class="text">Log in to your account</p>
-    </header>
-
     <LoginFormComponent class="login-form" />
   </section>
   <aside class="right-container">
@@ -23,7 +18,6 @@ import LoginFormComponent from '@/components/auth/LoginFormComponent.vue';
 <style scoped>
 .login {
   display: flex;
-
   min-height: inherit;
 }
 
@@ -33,8 +27,6 @@ import LoginFormComponent from '@/components/auth/LoginFormComponent.vue';
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  /* padding: 100px; */
 }
 .right-container {
   flex: 1;
@@ -43,21 +35,6 @@ import LoginFormComponent from '@/components/auth/LoginFormComponent.vue';
   background-position: center;
   background-repeat: no-repeat;
 }
-
-.header {
-  width: 100%;
-  margin-bottom: 20px;
-  text-align: center;
-  color: #333;
-
-  .title {
-    margin-bottom: 15px;
-    font-size: 45px;
-    font-weight: bold;
-    line-height: 45px;
-  }
-}
-
 
 .login-form {
   width: 100%;
