@@ -28,19 +28,18 @@ import LoginFormComponent from '@/components/auth/LoginFormComponent.vue';
   justify-content: center;
   align-items: center;
 }
+
+.login-form {
+  max-width: 540px;
+  padding: 0 20px;
+}
+
 .right-container {
   flex: 1;
   background-image: url('@/assets/images/b.svg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-}
-
-.login-form {
-  width: 100%;
-  max-width: 500px;
-
-  padding: 0 20px;
 }
 
 @media (max-width: 800px) {

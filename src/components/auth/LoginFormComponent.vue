@@ -46,23 +46,29 @@ async function submit() {
     title="Welcome back"
     subtitle="Log in to your account 🐈‍⬛"
   />
-<form class="form" @submit.prevent="submit">
-  <div class="inputs">
-    <BaseInputComponent v-model="credentials.username" label="Username" type="text" />
-    <BaseInputComponent v-model="credentials.password" label="Password" type="password" />
-  </div>
-  <BaseButtonComponent v-if="!isLoading" label="LOGIN" type="submit" :disabled="!validateInputs" />
-  <img v-else class="loading-icon" src="@/assets/loading.svg">
-  <p class="error-message">{{ errorMessage }}</p>
-</form>
+  <form class="form" @submit.prevent="submit">
+    <div class="inputs">
+      <BaseInputComponent v-model="credentials.username" label="Username" type="text" />
+      <BaseInputComponent v-model="credentials.password" label="Password" type="password" />
+    </div>
+    <BaseButtonComponent v-if="!isLoading" label="Login" type="submit" :disabled="!validateInputs" />
+    <img v-else class="loading-icon" src="@/assets/loading.svg">
+    <p class="error-message">{{ errorMessage }}</p>
+  </form>
 </div>
 </template>
 
 <style scoped>
+.login-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .form {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 10px;
 }
 .inputs {
   display: flex;
