@@ -4,9 +4,9 @@ import { useAuthStore } from '@/stores/useAuthStore';
 import type { AuthLoginRequest } from '@/types/dto/AuthDTO';
 import { readonly, ref } from 'vue';
 
-const isLoading = ref(false);
+export const useAuth = () => {
+  const isLoading = ref(false);
 
-export function useAuth() {
   const authStore = useAuthStore();
 
   const login = async (req: AuthLoginRequest) => {
@@ -37,4 +37,4 @@ export function useAuth() {
     login,
     logout
   };
-}
+};
