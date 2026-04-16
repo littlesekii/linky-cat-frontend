@@ -20,18 +20,17 @@ defineProps<{
   color: white;
   background-color: #4E2F68;
 
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: 700;
+  font-size: 16px;
 
-  border: 1px solid #4E2F68;
-  border-radius: 10px;
+  border: none;
+  border-radius: 100px;
 
   cursor: pointer;
 }
 .button:disabled {
-  color: #666;
-  background-color: #DDD;
-  border: 1px solid #DDD;
+  color: #3B3D40;
+  background-color: #CACCCE;
   cursor: default;
 }
 </style>

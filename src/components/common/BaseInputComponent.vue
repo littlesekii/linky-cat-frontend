@@ -1,21 +1,37 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+
 const model = defineModel<string>();
 
 defineProps<{
-  label: string,
   type?: string,
-  placeholder?: string
+  label?: string,
+  fixedLabel?: boolean
+  fixedPadding?: number
 }>();
+
+const isFocused = ref(false);
+
 </script>
 
 <template>
 <div class="input">
-  <label :for="label">{{ label }}</label>
+  <label
+    class="label"
+    :class="!fixedLabel && (isFocused || model && model.length > 0) ? 'label-moved' : ''"
+    :for="label"
+  >
+    {{ label }}
+  </label>
   <input
+    :class="fixedLabel ? 'fixed-label-input' : 'default-label-input'"
+    :style="fixedLabel ? `padding-left: ${fixedPadding}px` : ''"
     :id="label"
     v-model="model"
     :type="type || 'text'"
-    :placeholder="placeholder">
+    @focusin="isFocused = true"
+    @focusout="isFocused = false"
+  >
 </div>
 </template>
 
@@ -26,17 +42,42 @@ defineProps<{
   gap: 5px;
 }
 
-.input label {
-  font-weight: 600;
-  color: #333;
+.label {
+  font-size: 15px;
+  position: absolute;
+  padding: 0 13px;
+  padding-top: 14px;
+
+  cursor: text;
+  color: #676B6F;
+
+  transition: padding 0.2s, font-size 0.2s;
+  user-select: none;
+  -moz-user-select: none;
+}
+
+.label-moved {
+  padding-top: 6px;
+  font-size: 12px;
 }
 
 .input input {
-  font-size: 14px;
-  padding: 13px;
+  font-size: 15px;
+
+  background-color: #ECEEEE;
+  color: #18181A;
 
   border: none;
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+
+.default-label-input {
+  padding: 0 13px;
+  padding-top: 22px;
+  padding-bottom: 6px;
+}
+
+.fixed-label-input {
+  padding: 14px;
 }
 </style>
