@@ -1,7 +1,6 @@
 import { authService } from '@/api/services/authService';
-import router from '@/router';
 import { useAuthStore } from '@/stores/useAuthStore';
-import type { AuthLoginRequest } from '@/types/dto/AuthDTO';
+import type { AuthLoginRequest, AuthRegisterRequest } from '@/types/dto/AuthDTO';
 import { readonly, ref } from 'vue';
 
 export const useAuth = () => {
@@ -15,7 +14,17 @@ export const useAuth = () => {
     try {
       const response = await authService.login(req);
       authStore.setToken(response.token);
-      router.push('/dashboard');
+      window.location.replace('/dashboard');
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
+  const register = async (req: AuthRegisterRequest) => {
+    isLoading.value = true;
+
+    try {
+      await authService.register(req);
     } finally {
       isLoading.value = false;
     }
@@ -26,7 +35,27 @@ export const useAuth = () => {
 
     try {
       authStore.setToken(null);
-      router.push('/login');
+      window.location.replace('/login');
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
+  const checkUsername = async (username: string) => {
+    isLoading.value = true;
+
+    try {
+      await authService.checkUsername(username);
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
+  const checkEmail = async (email: string) => {
+    isLoading.value = true;
+
+    try {
+      await authService.checkEmail(email);
     } finally {
       isLoading.value = false;
     }
@@ -35,6 +64,9 @@ export const useAuth = () => {
   return {
     isLoading: readonly(isLoading),
     login,
-    logout
+    register,
+    logout,
+    checkUsername,
+    checkEmail
   };
 };

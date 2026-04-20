@@ -53,8 +53,11 @@ async function submit() {
     </div>
     <BaseButtonComponent v-if="!isLoading" label="Login" type="submit" :disabled="!validateInputs" />
     <img v-else class="loading-icon" src="@/assets/loading.svg">
-    <p class="error-message">{{ errorMessage }}</p>
+    <!-- <p class="error-message">{{ errorMessage }}</p> -->
   </form>
+  <p class="signup-link">
+    Don't have a account? <RouterLink class="link" to="/signup">Sign up</RouterLink>
+  </p>
 </div>
 </template>
 
@@ -63,6 +66,7 @@ async function submit() {
   display: flex;
   flex-direction: column;
   width: 100%;
+  gap: 10px;
 }
 
 .form {
@@ -76,7 +80,7 @@ async function submit() {
   gap: 10px;
 }
 .loading-icon {
-  height: 47px;
+  height: 48px;
 }
 .error-message {
   min-height: 25px;
@@ -84,5 +88,10 @@ async function submit() {
   font-weight: 600;
   color: #F53A3A;
   text-align: center;
+}
+.signup-link {
+  text-align: center;
+  color: #333;
+  font-size: 14px;
 }
 </style>
