@@ -16,14 +16,34 @@ onMounted(async () => {
 
 <template>
 <main class="profile">
-    <div v-if="isLoading">Loading...</div>
+    <div v-if="isLoading"></div>
     <ProfileComponent v-else-if="profile" />
-    <div v-else> 404 - Not Found</div>
+    <div class="not-found" v-else>
+      <h1>404 - Not Found</h1>
+      <p>Why not make this page yours? <a href="/signup"> Signup to Linky Cat!</a></p>
+    </div>
 </main>
 </template>
 
 <style scoped>
 .profile {
   min-height: inherit;
+}
+
+.not-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: inherit;
+
+  font-size: 30px;
+  font-weight: 700;
+
+  color: #333;
+}
+
+.not-found p {
+  font-size: 15px;
 }
 </style>

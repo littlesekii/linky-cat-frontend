@@ -56,9 +56,9 @@ const { profile } = useProfile();
   flex-direction: column;
   align-items: center;
 
-  min-height: calc(100dvh - 30px);
+  min-height: calc(100dvh - 60px);
 
-  margin-top: 30px;
+  margin-top: 60px;
   padding: 30px;
   gap: 1.5em;
 
@@ -83,10 +83,11 @@ const { profile } = useProfile();
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 10px;
 
   width: 100%;
 
-  color: #222;
+  color: #333;
 }
 
 .header-image {
@@ -105,13 +106,11 @@ const { profile } = useProfile();
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  margin-top: 5px;
 }
 
 .header-info h1 {
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 700;
 
   text-align: center;
 }
@@ -122,7 +121,7 @@ const { profile } = useProfile();
 
 .header-info h2 {
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 500;
   text-align: center;
 }
 
@@ -144,5 +143,6 @@ const { profile } = useProfile();
 
 .links-empty p {
   text-align: center;
+  color: #666;
 }
 </style>

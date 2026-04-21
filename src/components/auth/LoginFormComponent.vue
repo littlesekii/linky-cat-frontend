@@ -10,7 +10,7 @@ import AuthHeaderComponent from './AuthHeaderComponent.vue';
 
 const { login, isLoading } = useAuth();
 
-const errorMessage = ref<string>(' ');
+const errorMessage = ref<string>('');
 const credentials = ref<AuthLoginRequest>({
   username: '',
   password: ''
@@ -31,7 +31,7 @@ async function submit() {
     await login(credentials.value);
   } catch (error: unknown) {
     if (error instanceof ApiError) {
-      errorMessage.value = ERROR_MESSAGE.fromCode(error.errorCode);
+      errorMessage.value = error.message;
     } else {
       errorMessage.value = ERROR_MESSAGE.getDefault();
     }
@@ -48,12 +48,11 @@ async function submit() {
   />
   <form class="form" @submit.prevent="submit">
     <div class="inputs">
-      <BaseInputComponent v-model="credentials.username" label="Username" type="text" />
-      <BaseInputComponent v-model="credentials.password" label="Password" type="password" />
+      <BaseInputComponent v-model="credentials.username" :error-message="errorMessage" label="Username" type="text" />
+      <BaseInputComponent v-model="credentials.password" :error-message="errorMessage ? ' ' : ''" label="Password" type="password" />
     </div>
     <BaseButtonComponent v-if="!isLoading" label="Login" type="submit" :disabled="!validateInputs" />
     <img v-else class="loading-icon" src="@/assets/loading.svg">
-    <!-- <p class="error-message">{{ errorMessage }}</p> -->
   </form>
   <p class="signup-link">
     Don't have a account? <RouterLink class="link" to="/signup">Sign up</RouterLink>
