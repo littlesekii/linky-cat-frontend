@@ -35,12 +35,12 @@ const start = async () => {
       </div>
     </div>
 
-    <AuthHeaderComponent
-      class="fade-in"
-      :title="'Welcome, ' + displayName + '!'"
-      subtitle="Your account has been created successfully. The Linky Cat world is now yours to explore. 🐈‍⬛✨"
-      textAlign="center"
-    />
+    <AuthHeaderComponent class="fade-in">
+      <template #title>Welcome, {{ displayName }}!</template>
+      <template #subtitle>
+        Your account has been created successfully. The Linky Cat world is now yours to explore. 🐈‍⬛✨
+      </template>
+    </AuthHeaderComponent>
 
     <div class="action-section fade-in">
       <BaseButtonComponent

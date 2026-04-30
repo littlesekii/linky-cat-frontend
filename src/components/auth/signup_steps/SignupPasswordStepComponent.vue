@@ -88,12 +88,11 @@ function onSubmit() {
 <template>
 <div class="signup-form" >
   <AuthBackButtonComponent class="back-button" @click="emit('prev')" />
-  <AuthHeaderComponent
-    class="fade-in"
-    title="Create a password"
-    subtitle="Ensure it is strong, unique, and not used elsewhere. 🔐"
-    textAlign="left"
-  />
+  <AuthHeaderComponent class="fade-in" textAlign="left">
+    <template #title>Create a password</template>
+    <template #subtitle>Ensure it is strong, unique, and not used elsewhere. 🔐</template>
+  </AuthHeaderComponent>
+
   <form class="form fade-in" @submit.prevent="onSubmit">
     <div class="inputs">
       <BaseInputComponent

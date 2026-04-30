@@ -42,10 +42,10 @@ async function submit() {
 
 <template>
 <div class="login-form">
-  <AuthHeaderComponent
-    title="Welcome back"
-    subtitle="Log in to your account 🐈‍⬛"
-  />
+  <AuthHeaderComponent>
+    <template #title>Welcome back</template>
+    <template #subtitle>Log in to your account 🐈‍⬛</template>
+  </AuthHeaderComponent>
   <form class="form" @submit.prevent="submit">
     <div class="inputs">
       <BaseInputComponent v-model="credentials.username" :error-message="errorMessage" label="Username" type="text" />

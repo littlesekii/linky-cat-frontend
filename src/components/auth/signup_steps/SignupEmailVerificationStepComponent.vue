@@ -144,12 +144,11 @@ async function onSubmit() {
 <template>
 <div class="signup-form" >
   <AuthBackButtonComponent class="back-button" @click="emit('prev')" />
-  <AuthHeaderComponent
-    class="fade-in"
-    title="Verify your email"
-    :subtitle="'We sent a email verification code to ' + emailData + '.'"
-    textAlign="left"
-  />
+  <AuthHeaderComponent class="fade-in" textAlign="left">
+    <template #title>Verify your email</template>
+    <template #subtitle>We sent a email verification code to {{ emailData }}.</template>
+  </AuthHeaderComponent>
+
   <form class="form fade-in" @submit.prevent="onSubmit">
     <div class="inputs">
       <BaseInputComponent

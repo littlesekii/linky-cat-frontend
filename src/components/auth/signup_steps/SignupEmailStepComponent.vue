@@ -81,10 +81,11 @@ function onSubmit() {
 
 <template>
 <div class="signup-form">
-  <AuthHeaderComponent
-    title="Join Linky Cat"
-    subtitle="Create you account for free! 🐈‍⬛"
-  />
+  <AuthHeaderComponent>
+    <template #title>Join Linky Cat</template>
+    <template #subtitle>Create you account for free! 🐈‍⬛</template>
+  </AuthHeaderComponent>
+
   <form class="form" @submit.prevent="onSubmit">
     <div class="inputs">
       <BaseInputComponent

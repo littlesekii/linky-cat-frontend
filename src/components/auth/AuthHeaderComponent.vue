@@ -1,15 +1,17 @@
 <script setup lang="ts">
 defineProps<{
-  title: string,
-  subtitle?: string,
   textAlign?: 'left' | 'right' | 'center' | 'justify'
 }>();
 </script>
 
 <template>
-<header class="header" :style="'text-align: ' + textAlign || 'center'">
-  <h1 class="title">{{ title }}</h1>
-  <h2 class="subtitle">{{ subtitle }}</h2>
+<header class="header" :style="'text-align: ' + (textAlign ?? 'center')">
+  <h1 class="title">
+    <slot name="title"></slot>
+  </h1>
+  <h2 class="subtitle">
+    <slot name="subtitle"></slot>
+  </h2>
 </header>
 </template>
 

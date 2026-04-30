@@ -100,12 +100,11 @@ function onSubmit() {
 <template>
 <div class="signup-form" >
   <AuthBackButtonComponent class="back-button" @click="emit('prev')" />
-  <AuthHeaderComponent
-    class="fade-in"
-    title="Choose your username"
-    subtitle="This is how people find your page! ✨"
-    textAlign="left"
-  />
+  <AuthHeaderComponent class="fade-in" textAlign="left">
+    <template #title>Choose your username</template>
+    <template #subtitle>This is how people find your page! ✨</template>
+  </AuthHeaderComponent>
+
   <form class="form fade-in" @submit.prevent="onSubmit">
     <div class="inputs">
       <BaseInputComponent

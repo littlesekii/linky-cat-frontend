@@ -91,12 +91,11 @@ async function onSubmit() {
 <template>
 <div class="signup-form" >
   <AuthBackButtonComponent class="back-button" @click="emit('prev')" />
-  <AuthHeaderComponent
-    class="fade-in"
-    title="Enter your name"
-    subtitle="This name will be displayed as your page title. 🏷️"
-    textAlign="left"
-  />
+  <AuthHeaderComponent class="fade-in" textAlign="left">
+    <template #title>Enter your name</template>
+    <template #subtitle>This name will be displayed as your page title. 🏷️</template>
+  </AuthHeaderComponent>
+
   <form class="form fade-in" @submit.prevent="onSubmit">
     <div class="inputs">
       <BaseInputComponent
