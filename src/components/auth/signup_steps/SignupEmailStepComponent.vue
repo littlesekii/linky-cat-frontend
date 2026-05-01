@@ -80,64 +80,63 @@ function onSubmit() {
 </script>
 
 <template>
-<div class="signup-form">
+<div class="wrapper">
   <AuthHeaderComponent>
     <template #title>Join Linky Cat</template>
     <template #subtitle>Create you account for free! 🐈‍⬛</template>
   </AuthHeaderComponent>
-
   <form class="form" @submit.prevent="onSubmit">
     <div class="inputs">
       <BaseInputComponent
-        v-model="email"
         label="Email"
         type="text"
+        v-model="email"
         :errorMessage="errorMessage"
         :isLoading="isLoading"
         @input="onInput"
       />
     </div>
     <BaseButtonComponent label="Continue" type="submit" :disabled="!isValid" />
-    <!-- <p class="error-message">{{ errorMessage }}</p> -->
   </form>
-  <p class="login-link">
-    Already have an account? <RouterLink class="link" to="/login">Log in</RouterLink>
+  <p class="additional-info">
+    Already have an account? <RouterLink class="link" to="/login">Log-in</RouterLink>
   </p>
 </div>
 </template>
 
 <style scoped>
-.signup-form {
+.wrapper {
+  width: 100%;
+
   display: flex;
   flex-direction: column;
-  width: 100%;
-  gap: 10px;
+  gap: 20px;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  gap: 10px;
+  gap: 15px;
 }
+
 .inputs {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.error-message {
-  min-height: 25px;
 
-  font-weight: 600;
-  color: #F53A3A;
-  /* text-align: center; */
-}
-.login-link {
+.additional-info {
+  color: var(--color-text-secondary);
+
   text-align: center;
-  color: #333;
   font-size: 14px;
 }
-.loading-icon {
-  height: 48px;
+.additional-info .link {
+  color: var(--color-link);
+
+  text-decoration: none;
+}
+.additional-info .link:hover {
+  text-decoration: underline;
 }
 </style>

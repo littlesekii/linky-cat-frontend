@@ -5,9 +5,9 @@ import SignupFormComponent from '@/components/auth/SignupFormComponent.vue';
 </script>
 
 <template>
-<main class="signup">
+<main class="main">
   <section class="left-container">
-    <SignupFormComponent class="signup-form" />
+    <SignupFormComponent class="form-component" />
   </section>
   <aside class="right-container">
     <!-- <img src="@/assets/images/a.svg" alt=""> -->
@@ -16,9 +16,9 @@ import SignupFormComponent from '@/components/auth/SignupFormComponent.vue';
 </template>
 
 <style scoped>
-.signup {
-  display: flex;
+.main {
   min-height: inherit;
+  display: flex;
 }
 
 .left-container {
@@ -27,8 +27,6 @@ import SignupFormComponent from '@/components/auth/SignupFormComponent.vue';
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  /* padding: 100px; */
 }
 .right-container {
   flex: 1;

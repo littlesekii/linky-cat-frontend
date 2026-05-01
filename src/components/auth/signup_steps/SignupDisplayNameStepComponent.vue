@@ -89,19 +89,18 @@ async function onSubmit() {
 </script>
 
 <template>
-<div class="signup-form" >
+<div class="wrapper">
   <AuthBackButtonComponent class="back-button" @click="emit('prev')" />
   <AuthHeaderComponent class="fade-in" textAlign="left">
     <template #title>Enter your name</template>
     <template #subtitle>This name will be displayed as your page title. 🏷️</template>
   </AuthHeaderComponent>
-
   <form class="form fade-in" @submit.prevent="onSubmit">
     <div class="inputs">
       <BaseInputComponent
-        v-model="displayName"
         label="Name"
         type="text"
+        v-model="displayName"
         :errorMessage="errorMessage"
         @input="onInput"
       />
@@ -117,24 +116,24 @@ async function onSubmit() {
 @keyframes fadeInLeftToRight {
 	0% {
 		opacity: 0;
-		transform: translateX(10px); /* Start off-screen to the left */
+		transform: translateX(10px);
 	}
 	100% {
 		opacity: 1;
-		transform: translateX(0); /* End at the original position */
+		transform: translateX(0);
 	}
 }
 
-/* Apply the animation to the element */
 .fade-in {
 	animation: fadeInLeftToRight 0.2s ease-out forwards;
 }
 
-.signup-form {
+.wrapper {
+  width: 100%;
+
   display: flex;
   flex-direction: column;
-  width: 100%;
-  gap: 10px;
+  gap: 20px;
 }
 
 .back-button {
@@ -144,21 +143,15 @@ async function onSubmit() {
 .form {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  gap: 10px;
+  gap: 15px;
 }
+
 .inputs {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.error-message {
-  min-height: 25px;
 
-  font-weight: 600;
-  color: #F53A3A;
-  text-align: center;
-}
 .loading-icon {
   height: 48px;
 }

@@ -5,9 +5,9 @@ import LoginFormComponent from '@/components/auth/LoginFormComponent.vue';
 </script>
 
 <template>
-<main class="login">
+<main class="main">
   <section class="left-container">
-    <LoginFormComponent class="login-form" />
+    <LoginFormComponent class="form-component" />
   </section>
   <aside class="right-container">
     <!-- <img src="@/assets/images/a.svg" alt=""> -->
@@ -16,9 +16,9 @@ import LoginFormComponent from '@/components/auth/LoginFormComponent.vue';
 </template>
 
 <style scoped>
-.login {
-  display: flex;
+.main {
   min-height: inherit;
+  display: flex;
 }
 
 .left-container {
@@ -29,7 +29,7 @@ import LoginFormComponent from '@/components/auth/LoginFormComponent.vue';
   align-items: center;
 }
 
-.login-form {
+.form-component {
   max-width: 540px;
   padding: 0 20px;
 }

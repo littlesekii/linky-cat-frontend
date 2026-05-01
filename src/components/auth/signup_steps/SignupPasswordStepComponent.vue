@@ -86,7 +86,7 @@ function onSubmit() {
 </script>
 
 <template>
-<div class="signup-form" >
+<div class="wrapper" >
   <AuthBackButtonComponent class="back-button" @click="emit('prev')" />
   <AuthHeaderComponent class="fade-in" textAlign="left">
     <template #title>Create a password</template>
@@ -96,16 +96,16 @@ function onSubmit() {
   <form class="form fade-in" @submit.prevent="onSubmit">
     <div class="inputs">
       <BaseInputComponent
-        v-model="password"
         label="Password"
         type="password"
+        v-model="password"
         :errorMessage="passwordErrorMessage"
         @input="onInput"
       />
       <BaseInputComponent
-        v-model="passwordConfirmation"
         label="Confirm password"
         type="password"
+        v-model="passwordConfirmation"
         :errorMessage="passwordConfirmationErrorMessage"
         @input="onInput"
       />
@@ -158,24 +158,24 @@ function onSubmit() {
 @keyframes fadeInLeftToRight {
 	0% {
 		opacity: 0;
-		transform: translateX(10px); /* Start off-screen to the left */
+		transform: translateX(10px);
 	}
 	100% {
 		opacity: 1;
-		transform: translateX(0); /* End at the original position */
+		transform: translateX(0);
 	}
 }
 
-/* Apply the animation to the element */
 .fade-in {
 	animation: fadeInLeftToRight 0.2s ease-out forwards;
 }
 
-.signup-form {
+.wrapper {
+  width: 100%;
+
   display: flex;
   flex-direction: column;
-  width: 100%;
-  gap: 10px;
+  gap: 20px;
 }
 
 .back-button {
@@ -185,39 +185,35 @@ function onSubmit() {
 .form {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  gap: 10px;
+  gap: 15px;
 }
+
 .inputs {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.error-message {
-  min-height: 25px;
-
-  font-weight: 600;
-  color: #F53A3A;
-  text-align: center;
-}
 
 .conditions {
   display: flex;
+  flex-flow: row;
   margin-bottom: 10px;
 
-  color: #333;
+  color: var(--color-text-secondary);
   font-size: 14px;
 
   list-style: none;
   flex-wrap: wrap;
 }
+
 .condition {
   display: flex;
   width: 50%;
   padding: 3px;
-  transition: color 0.2s;
+  transition: color 0.3s;
   align-items: center;
 }
+
 .condition-icon {
   display: flex;
   align-items: center;
@@ -227,7 +223,7 @@ function onSubmit() {
   margin: 0 5px;
 }
 .condition-met {
-  color: #007c3e;
+  color: var(--color-success);
 }
 
 @media (max-width: 510px) {

@@ -16,7 +16,7 @@ const isFocused = ref(false);
 
 const inputClasses = computed(() => ({
   'shake-animation': props.errorMessage,
-  'error': props.errorMessage,
+  'input-error': props.errorMessage,
   'fixed-label': props.fixedLabel,
   'default-label': !props.fixedLabel,
   'label-moved' : !props.fixedLabel && (isFocused.value || model.value && model.value.length > 0)
@@ -25,7 +25,7 @@ const inputClasses = computed(() => ({
 </script>
 
 <template>
-<div class="wrapper">
+<div class="input-wrapper">
   <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
   <div class="input" :class="inputClasses">
     <label
@@ -58,39 +58,37 @@ const inputClasses = computed(() => ({
   animation: shake 0.3s ease-in-out;
 }
 
-.wrapper {
+.input-wrapper {
   display: flex;
   flex-direction: column;
-
-  gap: 2px;
+  gap: 3px;
 }
 
 .error-message {
+  color: var(--color-error);
   font-size: 14px;
   font-weight: 600;
-  color: #F53A3A;
 }
 
 .input {
+  height: 3rem;
   display: flex;
-  /* flex-direction: column; */
-  gap: 5px;
 
-  background-color: #ECEEEE;
-  color: #18181A;
+  background-color: var(--color-highlight);
+  color: var(--color-text);
 
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
 .input label {
-  font-size: 15px;
+  font-size: 14px;
   position: absolute;
   padding: 0 13px;
-  padding-top: 14px;
+  padding-top: 15px;
 
   cursor: text;
-  color: #676B6F;
+  color: var(--color-text-secondary);
 
   transition: padding 0.2s, font-size 0.2s;
   user-select: none;
@@ -99,7 +97,7 @@ const inputClasses = computed(() => ({
 
 .input input {
   flex: 1;
-  font-size: 15px;
+  font-size: 14px;
   outline: none;
 
   border: inherit;
@@ -107,12 +105,16 @@ const inputClasses = computed(() => ({
   border-radius: inherit;
 }
 
-/* Altera o fundo e a cor do texto no autocomplete */
+/* remove autocomplete background */
 .input input:-webkit-autofill,
 .input input:-webkit-autofill:hover,
 .input input:-webkit-autofill:focus,
 .input input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 30px #ECEEEE inset !important;
+    -webkit-box-shadow: 0 0 0 30px var(--color-highlight) inset !important;
+}
+
+.loading-icon {
+  width: 48px;
 }
 
 .default-label input {
@@ -130,16 +132,12 @@ const inputClasses = computed(() => ({
   font-size: 12px;
 }
 
-.error {
-  box-shadow: 0 0 0 2px #F53A3A;
+.input-error {
+  box-shadow: 0 0 0 2px var(--color-error);
 }
 
-.error label {
-  color: #F53A3A;
-}
-
-.loading-icon {
-  width: 48px;
+.input-error label {
+  color: var(--color-error);
 }
 
 </style>

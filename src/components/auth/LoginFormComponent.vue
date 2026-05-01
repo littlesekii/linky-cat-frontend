@@ -41,56 +41,76 @@ async function submit() {
 </script>
 
 <template>
-<div class="login-form">
+<div class="wrapper">
   <AuthHeaderComponent>
     <template #title>Welcome back</template>
     <template #subtitle>Log in to your account 🐈‍⬛</template>
   </AuthHeaderComponent>
   <form class="form" @submit.prevent="submit">
     <div class="inputs">
-      <BaseInputComponent v-model="credentials.username" :error-message="errorMessage" label="Username" type="text" />
-      <BaseInputComponent v-model="credentials.password" :error-message="errorMessage ? ' ' : ''" label="Password" type="password" />
+      <BaseInputComponent
+        label="Username"
+        type="text"
+        v-model="credentials.username"
+        :error-message="errorMessage"
+      />
+      <BaseInputComponent
+        label="Password"
+        type="password"
+        v-model="credentials.password"
+        :error-message="errorMessage ? ' ' : ''"
+      />
     </div>
-    <BaseButtonComponent v-if="!isLoading" label="Login" type="submit" :disabled="!validateInputs" />
+    <BaseButtonComponent
+      v-if="!isLoading"
+      label="Login"
+      type="submit"
+      :disabled="!validateInputs" />
     <img v-else class="loading-icon" src="@/assets/loading.svg">
   </form>
-  <p class="signup-link">
-    Don't have a account? <RouterLink class="link" to="/signup">Sign up</RouterLink>
+  <p class="additional-info">
+    Don't have an account? <RouterLink class="link" to="/signup">Sign-up</RouterLink>
   </p>
 </div>
 </template>
 
 <style scoped>
-.login-form {
+.wrapper {
+  width: 100%;
+
   display: flex;
   flex-direction: column;
-  width: 100%;
-  gap: 10px;
+  gap: 20px;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 }
+
 .inputs {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.loading-icon {
-  height: 48px;
-}
-.error-message {
-  min-height: 25px;
 
-  font-weight: 600;
-  color: #F53A3A;
-  text-align: center;
+.loading-icon {
+  height: 3rem;
 }
-.signup-link {
+
+.additional-info {
+  color: var(--color-text-secondary);
+
   text-align: center;
-  color: #333;
   font-size: 14px;
+}
+.additional-info .link {
+  color: var(--color-link);
+
+  text-decoration: none;
+}
+.additional-info .link:hover {
+  text-decoration: underline;
 }
 </style>

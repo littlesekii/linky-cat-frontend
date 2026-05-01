@@ -142,28 +142,26 @@ async function onSubmit() {
 </script>
 
 <template>
-<div class="signup-form" >
+<div class="wrapper" >
   <AuthBackButtonComponent class="back-button" @click="emit('prev')" />
   <AuthHeaderComponent class="fade-in" textAlign="left">
     <template #title>Verify your email</template>
-    <template #subtitle>We sent a email verification code to {{ emailData }}.</template>
+    <template #subtitle>We sent a email verification code to <strong class="strong">{{ emailData }}</strong>.</template>
   </AuthHeaderComponent>
-
   <form class="form fade-in" @submit.prevent="onSubmit">
     <div class="inputs">
       <BaseInputComponent
-        v-model="verificationCode"
         label="Verification code"
         type="text"
+        v-model="verificationCode"
         :errorMessage="errorMessage"
         @input="onInput"
       />
     </div>
     <BaseButtonComponent v-if="!isLoading" label="Continue" type="submit" :disabled="!isValid" />
     <img v-else class="loading-icon" src="@/assets/loading.svg">
-    <!-- <p class="error-message">{{ errorMessage }}</p> -->
   </form>
-  <p class="resend-email">
+  <p class="additional-info">
     Did not receive the email?
     <span v-if="verificationTimeoutData > 0">Please wait {{ verificationTimeoutData }} seconds.</span>
     <button v-else @click.prevent="resendVerification">Resend</button>
@@ -176,24 +174,28 @@ async function onSubmit() {
 @keyframes fadeInLeftToRight {
 	0% {
 		opacity: 0;
-		transform: translateX(10px); /* Start off-screen to the left */
+		transform: translateX(10px);
 	}
 	100% {
 		opacity: 1;
-		transform: translateX(0); /* End at the original position */
+		transform: translateX(0);
 	}
 }
 
-/* Apply the animation to the element */
 .fade-in {
 	animation: fadeInLeftToRight 0.2s ease-out forwards;
 }
 
-.signup-form {
+.strong {
+  font-weight: 500;
+}
+
+.wrapper {
+  width: 100%;
+
   display: flex;
   flex-direction: column;
-  width: 100%;
-  gap: 10px;
+  gap: 20px;
 }
 
 .back-button {
@@ -203,37 +205,35 @@ async function onSubmit() {
 .form {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  gap: 10px;
+  gap: 15px;
 }
+
 .inputs {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.error-message {
-  min-height: 25px;
 
-  font-weight: 600;
-  color: #F53A3A;
-  text-align: center;
+.loading-icon {
+  height: 3rem;
 }
 
-.resend-email {
+.additional-info {
+  color: var(--color-text-secondary);
+
   text-align: center;
-  color: #333;
   font-size: 14px;
 }
+.additional-info button {
+  color: var(--color-link);
 
-.resend-email button {
-
-  text-decoration: underline;
   font-size: inherit;
+  text-decoration: none;
   background: none;
   border: none;
   cursor: pointer;
 }
-.loading-icon {
-  height: 48px;
+.additional-info button:hover {
+  text-decoration: underline;
 }
 </style>

@@ -1,44 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Outfit:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Outfit:wght@100..900&display=swap');
 
-/* color palette from <https://github.com/vuejs/theme> */
+
 :root {
-  --vt-c-white: #ffffff;
-  --vt-c-white-soft: #f8f8f8;
-  --vt-c-white-mute: #f2f2f2;
+  --lc-white: #ffffff;
+  --lc-white-soft: #f5f3ff;
+  --lc-white-mute: #ede9fe;
 
-  --vt-c-black: #181818;
-  --vt-c-black-soft: #222222;
-  --vt-c-black-mute: #282828;
+  --lc-purple: #8627d4;
 
-  --vt-c-indigo: #2c3e50;
+  --lc-black: #2a303b;
+  --lc-black-mute: #474f63;
+  --lc-gray: #b9bcc2;
+  --lc-gray-mute: #ebeef0;
 
-  --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
-  --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
-  --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
-  --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
-
-  --vt-c-text-light-1: var(--vt-c-indigo);
-  --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
-  --vt-c-text-dark-1: var(--vt-c-white);
-  --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+  --lc-green: #0f976a;
+  --lc-red: #f53a3a;
 }
 
 /* semantic color variables for this project */
 :root {
-  --color-background: var(--vt-c-white);
-  --color-background-soft: var(--vt-c-white-soft);
-  --color-background-mute: var(--vt-c-white-mute);
 
-  --color-border: var(--vt-c-divider-light-2);
-  --color-border-hover: var(--vt-c-divider-light-1);
+  --color-primary: var(--lc-purple);
 
-  --color-heading: var(--vt-c-text-light-1);
-  --color-text: var(--vt-c-text-light-1);
+  --color-text: var(--lc-black);
+  --color-text-secondary: var(--lc-black-mute);
 
-  --section-gap: 160px;
+  --color-highlight: var(--lc-gray-mute);
+  --color-disabled: var(--lc-gray);
+
+  --color-background: var(--lc-white);
+
+  --color-link: var(--lc-purple);
+
+  --color-success: var(--lc-green);
+  --color-error: var(--lc-red);
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--vt-c-black);
     --color-background-soft: var(--vt-c-black-soft);
@@ -50,7 +49,7 @@
     --color-heading: var(--vt-c-text-dark-1);
     --color-text: var(--vt-c-text-dark-2);
   }
-}
+} */
 
 *,
 *::before,
@@ -61,8 +60,8 @@
   font-weight: normal;
 
   font-family:
-    'Nunito Sans',
-    Inter,
+    /* 'Nunito Sans', */
+    'Inter',
     -apple-system,
     BlinkMacSystemFont,
     'Segoe UI',

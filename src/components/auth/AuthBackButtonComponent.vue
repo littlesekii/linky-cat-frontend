@@ -13,9 +13,9 @@
 
   padding: 8px 10px;
 
+  color: var(--color-primary);
   font-size: 16px;
   font-weight: 600;
-  color: #4E2F68;
 
   background: none;
 
@@ -26,6 +26,6 @@
 }
 
 .back-button:hover {
-  background-color: #ECEEEE;
+  background-color: var(--color-highlight);
 }
 </style>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import BaseButtonComponent from '@/components/common/BaseButtonComponent.vue';
 import { useAuth } from '@/composables/useAuth';
 
 const { logout } = useAuth();

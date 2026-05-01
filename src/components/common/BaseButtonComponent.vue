@@ -15,22 +15,22 @@ defineProps<{
 <style scoped>
 .button {
   width: 100%;
-  padding: 13px;
+  height: 3rem;
 
-  color: white;
-  background-color: #4E2F68;
+  color: var(--lc-white);
+  background-color: var(--color-primary);
 
-  font-weight: 700;
+  font-weight: 600;
   font-size: 16px;
 
   border: none;
-  border-radius: 100px;
+  border-radius: 12px;
 
   cursor: pointer;
 }
 .button:disabled {
-  color: #3B3D40;
-  background-color: #CACCCE;
+  color: var(--color-text);
+  background-color: var(--color-disabled);
   cursor: default;
 }
 </style>

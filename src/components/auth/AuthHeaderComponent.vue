@@ -5,7 +5,7 @@ defineProps<{
 </script>
 
 <template>
-<header class="header" :style="'text-align: ' + (textAlign ?? 'center')">
+<header class="header-wrapper" :style="'text-align: ' + (textAlign ?? 'center')">
   <h1 class="title">
     <slot name="title"></slot>
   </h1>
@@ -16,18 +16,21 @@ defineProps<{
 </template>
 
 <style scoped>
-.header {
+.header-wrapper {
   width: 100%;
-  margin-bottom: 20px;
-  text-align: center;
-  color: #333;
+
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  color: var(--color-text);
 }
 
 .title {
-  margin-bottom: 15px;
-  font-size: 45px;
-  font-weight: bold;
-  line-height: 45px;
+  font-size: 42px;
+  line-height: 42px;
+
+  font-weight: 800;
 }
 
 .subtitle {
