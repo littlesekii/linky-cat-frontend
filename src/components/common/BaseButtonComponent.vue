@@ -20,7 +20,7 @@ defineProps<{
   color: var(--lc-white);
   background-color: var(--color-primary);
 
-  font-weight: 600;
+  font-weight: 500;
   font-size: 16px;
 
   border: none;

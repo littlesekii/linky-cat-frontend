@@ -67,7 +67,7 @@ const inputClasses = computed(() => ({
 .error-message {
   color: var(--color-error);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .input {

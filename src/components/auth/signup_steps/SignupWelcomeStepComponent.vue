@@ -7,6 +7,9 @@ import { useAuth } from '@/composables/useAuth';
 import { ApiError } from '@/types/error/ApiError';
 import type { AuthLoginRequest } from '@/types/dto/AuthDTO';
 
+import confetti from 'canvas-confetti';
+import { onMounted } from 'vue';
+
 const { displayName, username, password } = useSignupData();
 const { login, isLoading } = useAuth();
 
@@ -25,12 +28,27 @@ const start = async () => {
     }
   }
 };
+
+onMounted(() => {
+
+  const screenWidth: number = window.innerWidth;
+  const originX: number = (screenWidth > 800) ? 0.25 : 0.5;
+
+  confetti({
+    particleCount: 200,
+    spread: 180,
+    origin: { x: originX,  y: 0.55 },
+    scalar: 0.5,
+    colors: ['#5e25c0', '#f472b6', '#ffffff']
+  });
+
+});
 </script>
 
 <template>
-  <div class="signup-form success-step">
-    <div class="success-icon-container">
-      <div class="circle-bg">
+  <div class="wrapper">
+    <div class="success-icon">
+      <div class="icon-circle-bg">
         <CheckSVG size="48" color="#007c3e" />
       </div>
     </div>
@@ -42,18 +60,17 @@ const start = async () => {
       </template>
     </AuthHeaderComponent>
 
-    <div class="action-section fade-in">
-      <BaseButtonComponent
-        v-if="!isLoading"
-        label="Get Started"
-        @click="start"
-      />
-      <img v-else class="loading-icon" src="@/assets/loading.svg">
+    <BaseButtonComponent
+      v-if="!isLoading"
+      label="Get Started"
+      class="fade-in"
+      @click="start"
+    />
+    <img v-else class="loading-icon" src="@/assets/loading.svg">
 
-      <p class="hint-text">
-        Check your profile later to add a bio and links!
-      </p>
-    </div>
+    <p class="additional-info fade-in">
+      Check your profile to add a bio and your links!
+    </p>
   </div>
 </template>
 
@@ -78,49 +95,40 @@ const start = async () => {
   animation: fadeInDownToUp 0.3s ease-out forwards;
 }
 
-.success-step {
-  align-items: center;
-  justify-content: center;
-  padding: 20px 0;
-}
-
-.success-icon-container {
+.success-icon {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
   animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.circle-bg {
+.icon-circle-bg {
   width: 80px;
   height: 80px;
   background-color: rgba(0, 124, 62, 0.1);
-  border-radius: 50%;
+  border-radius: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.action-section {
+.wrapper {
   width: 100%;
-  margin-top: 20px;
+
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
 }
 
-.hint-text {
-  text-align: center;
-  font-size: 0.9rem;
-  color: #666;
-}
-
-.signup-form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
 .loading-icon {
   height: 48px;
 }
+
+.additional-info {
+  color: var(--color-text-secondary);
+
+  text-align: center;
+  font-size: 14px;
+}
+
 </style>
