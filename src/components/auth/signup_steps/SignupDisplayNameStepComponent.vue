@@ -3,12 +3,12 @@ import BaseButtonComponent from '@/components/common/BaseButtonComponent.vue';
 import BaseInputComponent from '@/components/common/BaseInputComponent.vue';
 import { useAuth } from '@/composables/useAuth';
 import { useSignupData } from '@/stores/useSignupData';
-import { ref } from 'vue';
-import AuthBackButtonComponent from '../AuthBackButtonComponent.vue';
-import AuthHeaderComponent from '../AuthHeaderComponent.vue';
 import type { AuthRegisterRequest } from '@/types/dto/AuthDTO';
 import { ApiError } from '@/types/error/ApiError';
 import { ERROR_MESSAGE } from '@/utils/messages/error';
+import { ref } from 'vue';
+import AuthBackButtonComponent from '../AuthBackButtonComponent.vue';
+import AuthHeaderComponent from '../AuthHeaderComponent.vue';
 
 const {
   email: emailData,

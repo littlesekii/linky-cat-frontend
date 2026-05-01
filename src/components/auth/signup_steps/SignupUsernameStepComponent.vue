@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import BaseButtonComponent from '@/components/common/BaseButtonComponent.vue';
 import BaseInputComponent from '@/components/common/BaseInputComponent.vue';
-import { onMounted, onUnmounted, ref } from 'vue';
-import AuthHeaderComponent from '../AuthHeaderComponent.vue';
-import AuthBackButtonComponent from '../AuthBackButtonComponent.vue';
 import { useAuth } from '@/composables/useAuth';
+import { useSignupData } from '@/stores/useSignupData';
 import { ApiError } from '@/types/error/ApiError';
 import { ERROR_MESSAGE } from '@/utils/messages/error';
 import { utils } from '@/utils/utils';
-import { useSignupData } from '@/stores/useSignupData';
+import { onMounted, onUnmounted, ref } from 'vue';
+import AuthBackButtonComponent from '../AuthBackButtonComponent.vue';
+import AuthHeaderComponent from '../AuthHeaderComponent.vue';
 
 const { username: usernameData, setUsername } = useSignupData();
 const { checkUsername, isLoading } = useAuth();

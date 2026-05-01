@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import CheckSVG from '@/assets/icons/CheckSVG.vue'; // Ou o ícone que você tiver
 import BaseButtonComponent from '@/components/common/BaseButtonComponent.vue';
-import { useSignupData } from '@/stores/useSignupData';
-import AuthHeaderComponent from '../AuthHeaderComponent.vue';
 import { useAuth } from '@/composables/useAuth';
-import { ApiError } from '@/types/error/ApiError';
+import { useSignupData } from '@/stores/useSignupData';
 import type { AuthLoginRequest } from '@/types/dto/AuthDTO';
+import { ApiError } from '@/types/error/ApiError';
+import AuthHeaderComponent from '../AuthHeaderComponent.vue';
 
 import confetti from 'canvas-confetti';
 import { onMounted } from 'vue';

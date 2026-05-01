@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import BaseButtonComponent from '@/components/common/BaseButtonComponent.vue';
 import BaseInputComponent from '@/components/common/BaseInputComponent.vue';
-import { onMounted, onUnmounted, ref } from 'vue';
-import AuthHeaderComponent from '../AuthHeaderComponent.vue';
-import { utils } from '@/utils/utils';
 import { useAuth } from '@/composables/useAuth';
+import { useSignupData } from '@/stores/useSignupData';
 import { ApiError } from '@/types/error/ApiError';
 import { ERROR_MESSAGE } from '@/utils/messages/error';
-import { useSignupData } from '@/stores/useSignupData';
+import { utils } from '@/utils/utils';
+import { onMounted, onUnmounted, ref } from 'vue';
+import AuthHeaderComponent from '../AuthHeaderComponent.vue';
 
 const { email: emailData, setEmail, setEmailVerified, setFirstEmailVerificationSent, setVerificationTimeout } = useSignupData();
 const { checkEmail, isLoading } = useAuth();

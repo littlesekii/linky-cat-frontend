@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CheckSVG from '@/assets/icons/CheckSVG.vue';
 import BaseButtonComponent from '@/components/common/BaseButtonComponent.vue';
 import BaseInputComponent from '@/components/common/BaseInputComponent.vue';
 import { useSignupData } from '@/stores/useSignupData';
@@ -6,7 +7,6 @@ import { utils } from '@/utils/utils';
 import { computed, onUnmounted, ref } from 'vue';
 import AuthBackButtonComponent from '../AuthBackButtonComponent.vue';
 import AuthHeaderComponent from '../AuthHeaderComponent.vue';
-import CheckSVG from '@/assets/icons/CheckSVG.vue';
 
 const { setPassword } = useSignupData();
 

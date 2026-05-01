@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { useSignupData } from '@/stores/useSignupData';
 import { computed, markRaw, ref } from 'vue';
+import SignupDisplayNameStepComponent from './signup_steps/SignupDisplayNameStepComponent.vue';
 import SignupEmailStepComponent from './signup_steps/SignupEmailStepComponent.vue';
 import SignupEmailVerificationStepComponent from './signup_steps/SignupEmailVerificationStepComponent.vue';
 import SignupPasswordStepComponent from './signup_steps/SignupPasswordStepComponent.vue';
 import SignupUsernameStepComponent from './signup_steps/SignupUsernameStepComponent.vue';
-import SignupDisplayNameStepComponent from './signup_steps/SignupDisplayNameStepComponent.vue';
-import { useSignupData } from '@/stores/useSignupData';
 import SignupWelcomeStepComponent from './signup_steps/SignupWelcomeStepComponent.vue';
 
 const { emailVerified } = useSignupData();

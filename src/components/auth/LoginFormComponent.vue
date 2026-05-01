@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import BaseButtonComponent from '../common/BaseButtonComponent.vue';
-import BaseInputComponent from '../common/BaseInputComponent.vue';
 import { useAuth } from '@/composables/useAuth';
 import type { AuthLoginRequest } from '@/types/dto/AuthDTO';
 import { ApiError } from '@/types/error/ApiError';
 import { ERROR_MESSAGE } from '@/utils/messages/error';
+import { computed, ref } from 'vue';
+import BaseButtonComponent from '../common/BaseButtonComponent.vue';
+import BaseInputComponent from '../common/BaseInputComponent.vue';
 import AuthHeaderComponent from './AuthHeaderComponent.vue';
 
 const { login, isLoading } = useAuth();
