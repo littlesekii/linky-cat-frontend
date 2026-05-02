@@ -14,6 +14,8 @@ defineProps<{link:Link}>();
 
 .wrapper {
   width: inherit;
+  height: 3.375rem;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -22,13 +24,12 @@ defineProps<{link:Link}>();
   padding: 15px 20px;
   cursor: pointer;
 
-  background-color: #222;
-  border: 2px solid #222;
+  background-color: var(--lc-black);
   /* border-radius: 5px; */
 }
 
 .title {
-  color: #FFF;
+  color: var(--lc-white);
   font-weight: 500;
 }
 

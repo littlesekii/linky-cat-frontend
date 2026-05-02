@@ -42,33 +42,33 @@ const { profile } = useProfile();
 
 <style scoped>
 .background {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
   min-height: inherit;
 
-  background-color: #222;
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--lc-black);
 }
 
 .container {
+  width: 100%;
+  max-width: 480px;
+  min-height: calc(100dvh - 60px);
+
   display: flex;
   flex-direction: column;
-  align-items: center;
-
-  min-height: calc(100dvh - 60px);
+  align-self: center;
 
   margin-top: 60px;
   padding: 30px;
   gap: 1.5em;
 
-  width: 100%;
-  max-width: 490px;
-
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+  /* border: 2px solid var(--lc-black); */
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
 
-  background-color: #ffffff;
+  background-color: var(--lc-white);
 }
 
 @media (max-width: 490px) {
@@ -82,17 +82,16 @@ const { profile } = useProfile();
 .header {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
+  gap: 15px;
 
-  width: 100%;
-
-  color: #333;
+  color: var(--color-text);
 }
 
 .header-image {
   width: 100px;
   height: 100px;
+
+  align-self: center;
 
   border-radius: 100%;
 
@@ -106,6 +105,7 @@ const { profile } = useProfile();
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 10px;
 }
 
 .header-info h1 {
@@ -121,7 +121,6 @@ const { profile } = useProfile();
 
 .header-info h2 {
   font-size: 16px;
-  font-weight: 500;
   text-align: center;
 }
 
@@ -143,6 +142,6 @@ const { profile } = useProfile();
 
 .links-empty p {
   text-align: center;
-  color: #666;
+  color: var(--color-text-secondary);
 }
 </style>
