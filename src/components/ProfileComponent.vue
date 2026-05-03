@@ -53,8 +53,8 @@ const { profile } = useProfile();
 .container {
   width: 100%;
   max-width: 480px;
-  min-height: calc(100dvh - 60px);
 
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   align-self: center;

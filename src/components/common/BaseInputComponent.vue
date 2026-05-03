@@ -78,7 +78,7 @@ const inputClasses = computed(() => ({
   color: var(--color-text);
 
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
 }
 
 .input label {

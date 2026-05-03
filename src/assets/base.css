@@ -4,15 +4,16 @@
 
 :root {
   --lc-white: #ffffff;
-  --lc-white-soft: #f5f3ff;
-  --lc-white-mute: #ede9fe;
+  --lc-white-soft: #f2f3f8;
+  --lc-white-mute: #e0e2e7;
 
-  --lc-purple: #8627d4;
+  --lc-gray: #d1d2d8;
 
-  --lc-black: #2a303b;
-  --lc-black-mute: #474f63;
-  --lc-gray: #b9bcc2;
-  --lc-gray-mute: #ebeef0;
+  --lc-black: #262a33;
+  --lc-black-soft: #474f63;
+
+  --lc-purple: #8129D9;
+  --lc-purple-dark: #7b25d1;
 
   --lc-green: #0f976a;
   --lc-red: #f53a3a;
@@ -21,15 +22,18 @@
 /* semantic color variables for this project */
 :root {
 
-  --color-primary: var(--lc-purple);
 
   --color-text: var(--lc-black);
-  --color-text-secondary: var(--lc-black-mute);
+  --color-text-secondary: var(--lc-black-soft);
 
-  --color-highlight: var(--lc-gray-mute);
+  --color-highlight: var(--lc-white-soft);
+  --color-highlight-strong: var(--lc-white-mute);
   --color-disabled: var(--lc-gray);
 
   --color-background: var(--lc-white);
+
+  --color-primary: var(--lc-purple);
+  --color-primary-highlight: var(--lc-purple-dark);
 
   --color-link: var(--lc-purple);
 

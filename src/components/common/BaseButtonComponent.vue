@@ -24,7 +24,7 @@ defineProps<{
   font-size: 16px;
 
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
 
   cursor: pointer;
 }
