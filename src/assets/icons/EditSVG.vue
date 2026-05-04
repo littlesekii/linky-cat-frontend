@@ -4,7 +4,7 @@ const props = defineProps(['size']);
 
 <template>
   <svg
-    :style="'width: ' + props.size"
+    :style="`width: ${props.size}px`"
     aria-hidden="true"
     viewBox="0 0 24 24"
     fill="none"
