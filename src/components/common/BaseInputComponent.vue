@@ -9,14 +9,18 @@ const props = defineProps<{
   label?: string,
   errorMessage?: string,
   fixedLabel?: boolean
-  fixedPadding?: number
+  fixedPadding?: number,
+  maxLength?: number
 }>();
 
 const isFocused = ref(false);
 
+const inputId = computed(() => props.label?.toLowerCase());
+
 const inputClasses = computed(() => ({
   'shake-animation': props.errorMessage,
   'input-error': props.errorMessage,
+  'textarea-label': props.type === 'textarea',
   'fixed-label': props.fixedLabel,
   'default-label': !props.fixedLabel,
   'label-moved' : !props.fixedLabel && (isFocused.value || model.value && model.value.length > 0)
@@ -27,22 +31,37 @@ const inputClasses = computed(() => ({
 <template>
 <div class="input-wrapper">
   <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
-  <div class="input" :class="inputClasses">
+  <div class="input-container" :class="inputClasses">
     <label
-      :for="label"
+      :for="inputId"
     >
       {{ label }}
     </label>
     <input
+      class="input"
+      v-if="type !== 'textarea'"
       :style="fixedLabel ? `padding-left: ${fixedPadding}px` : ''"
-      :id="label"
+      :id="inputId"
       v-model="model"
       :type="type || 'text'"
+      :maxlength="maxLength"
       @focusin="isFocused = true"
       @focusout="isFocused = false"
     >
+    <textarea
+      class="input"
+      v-else-if="type === 'textarea'"
+      :name="label"
+      :id="inputId"
+      v-model="model"
+      :maxlength="maxLength"
+      @focusin="isFocused = true"
+      @focusout="isFocused = false"
+    >
+    </textarea>
     <img v-if="isLoading" class="loading-icon" src="@/assets/loading-small.svg">
   </div>
+  <p class="max-length" v-if="maxLength">{{ model?.length ?? 0 }}/{{ maxLength }}</p>
 </div>
 </template>
 
@@ -70,8 +89,18 @@ const inputClasses = computed(() => ({
   font-weight: 500;
 }
 
-.input {
-  height: 3rem;
+.max-length {
+  text-align: right;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+}
+
+.input-container {
+  min-height: 3rem;
+
+  position: relative;
+
   display: flex;
 
   background-color: var(--color-highlight);
@@ -81,7 +110,9 @@ const inputClasses = computed(() => ({
   border-radius: 10px;
 }
 
-.input label {
+.input-container label {
+  width: 100%;
+
   font-size: 14px;
   position: absolute;
   padding: 0 13px;
@@ -95,7 +126,22 @@ const inputClasses = computed(() => ({
   -moz-user-select: none;
 }
 
-.input input {
+.input-container input {
+  flex: 1;
+  font-size: 14px;
+  outline: none;
+
+  border: inherit;
+  background-color: inherit;
+  border-radius: inherit;
+}
+
+.input-container textarea {
+  min-height: 4rem;
+
+  margin-top: 24px;
+  padding: 0 13px;
+
   flex: 1;
   font-size: 14px;
   outline: none;
@@ -106,11 +152,15 @@ const inputClasses = computed(() => ({
 }
 
 /* remove autocomplete background */
-.input input:-webkit-autofill,
-.input input:-webkit-autofill:hover,
-.input input:-webkit-autofill:focus,
-.input input:-webkit-autofill:active {
+.input-container input:-webkit-autofill,
+.input-container input:-webkit-autofill:hover,
+.input-container input:-webkit-autofill:focus,
+.input-container input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 30px var(--color-highlight) inset !important;
+}
+
+.input-container:hover {
+  box-shadow: 0 0 0 2px var(--lc-gray);
 }
 
 .loading-icon {
@@ -133,7 +183,7 @@ const inputClasses = computed(() => ({
 }
 
 .input-error {
-  box-shadow: 0 0 0 2px var(--color-error);
+  box-shadow: 0 0 0 2px var(--color-error) !important;
 }
 
 .input-error label {
