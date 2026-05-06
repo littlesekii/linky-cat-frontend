@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useAuth } from '@/composables/useAuth';
+
+const { logout } = useAuth();
 
 </script>
 
@@ -12,6 +15,7 @@
     >
     <p>LINKYCAT</p>
   </div>
+  <button @click="logout();">logout</button>
 </header>
 </template>
 
