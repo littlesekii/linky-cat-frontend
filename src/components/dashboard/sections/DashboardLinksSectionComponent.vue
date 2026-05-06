@@ -1,50 +1,71 @@
 <script setup lang="ts">
-import DraggableSVG from '@/assets/icons/DraggableSVG.vue';
-import EditSVG from '@/assets/icons/EditSVG.vue';
 import BaseButtonComponent from '@/components/common/BaseButtonComponent.vue';
+import { useDashboard } from '@/composables/useDashboard';
+import { useLink } from '@/composables/useLink';
+import { onMounted, ref } from 'vue';
+import DashboardLinkComponent from './link/DashboardLinkComponent.vue';
+import DashboardLinkModalComponent from './link/DashboardLinkModalComponent.vue';
 
+const { fetchDashboardLinks, dashboardLinks, isLoading } = useDashboard();
+
+const { remove } = useLink();
+
+onMounted(() => {
+  fetchDashboardLinks();
+});
+
+const isProfileModalOpen = ref(false);
+const isLinkModalOpen = ref(false);
+
+const errorMessage = ref('');
+
+const openProfileModal = () => isProfileModalOpen.value = true;
+const closeProfileModal = () => isProfileModalOpen.value = false;
+const openLinkModal = () => isLinkModalOpen.value = true;
+const closeLinkModal = () => isLinkModalOpen.value = false;
+
+async function onLinkModalSubmit() {
+  await fetchDashboardLinks();
+  closeLinkModal();
+}
+
+async function onLinkDelete(linkId: string) {
+  await remove(linkId);
+  await fetchDashboardLinks();
+}
 
 </script>
 
 <template>
 <section class="dashboard-section">
-  <div class="test">
+  <div class="dashboard-container">
     <h1 class="title">Links</h1>
 
-    <!-- <div class="profile">
+    <DashboardLinkModalComponent v-if="isLinkModalOpen" @submit="onLinkModalSubmit" @close="closeLinkModal" />
 
-    </div> -->
+    <BaseButtonComponent label="Add new" @click="openLinkModal"/>
 
-    <BaseButtonComponent label="Add new" />
+    <DashboardLinkComponent
+      v-for="link in dashboardLinks?.links"
+      :key="link.id"
+      :link="link"
 
-    <div class="link-container">
-      <div class="link-drag">
-        <DraggableSVG size="16" />
-      </div>
-      <div class="link-properties">
-        <p class="link-title">Title <EditSVG size="16" /></p>
-        <p class="link-url">https://teste.com <EditSVG size="16" /></p>
-        <p class="link-clicks">0 clicks</p>
-      </div>
-    </div>
-
+      @delete="onLinkDelete(link.id ?? '')"
+    />
   </div>
-  <div class="preview">
+  <!-- <div class="preview">
     <iframe src="http://localhost:2001/littlesekii"></iframe>
-  </div>
+  </div> -->
 </section>
 </template>
 
 
 <style scoped>
 .dashboard-section {
-  overflow-y: auto;
-
-  display: flex;
-
   background-color: var(--color-highlight);
+  overflow-y: auto;
 }
-.test {
+.dashboard-container {
   padding: 30px;
 
   flex-grow: 1;
@@ -76,55 +97,6 @@ import BaseButtonComponent from '@/components/common/BaseButtonComponent.vue';
   font-weight: 600;
 }
 
-.link-container {
-  padding: 15px 0;
 
-  display: flex;
-  gap: 15px;
 
-  background-color: var(--color-background);
-
-  border: 1px solid var(--lc-white-mute);
-  border-radius: 10px;
-}
-
-.link-drag {
-  padding: 0 5px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  cursor: pointer;
-}
-
-.link-properties {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-
-  font-size: 14px;
-  color: var(--color-text);
-}
-.link-title {
-  align-self: flex-start;
-
-  display: flex;
-  gap: 5px;
-
-  font-weight: 600;
-
-  cursor: pointer;
-}
-.link-url {
-  align-self: flex-start;
-
-  display: flex;
-  gap: 5px;
-
-  cursor: pointer;
-}
-.link-clicks {
-  color: var(--color-text-secondary);
-}
 </style>
