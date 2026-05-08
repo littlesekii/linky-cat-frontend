@@ -5,10 +5,10 @@ import { useLink } from '@/composables/useLink';
 import { onMounted, ref } from 'vue';
 import DashboardLinkComponent from './link/DashboardLinkComponent.vue';
 import DashboardLinkModalComponent from './link/DashboardLinkModalComponent.vue';
+import { utils } from '@/utils/utils';
 
 const { fetchDashboardLinks, dashboardLinks, isLoading } = useDashboard();
-
-const { remove } = useLink();
+const { remove, update } = useLink();
 
 onMounted(() => {
   fetchDashboardLinks();
@@ -34,6 +34,12 @@ async function onLinkDelete(linkId: string) {
   await fetchDashboardLinks();
 }
 
+const onLinkChangeIsActive = async (linkId: string, isActive: boolean) => {
+  await update(linkId, { isActive });
+};
+
+const debouncedChangeIsActive = utils.debounce(onLinkChangeIsActive, 500);
+
 </script>
 
 <template>
@@ -51,6 +57,7 @@ async function onLinkDelete(linkId: string) {
       :link="link"
 
       @delete="onLinkDelete(link.id ?? '')"
+      @change-is-active="(isActive) => debouncedChangeIsActive(link.id ?? '', isActive)"
     />
   </div>
   <!-- <div class="preview">
@@ -96,7 +103,4 @@ async function onLinkDelete(linkId: string) {
   font-size: 24px;
   font-weight: 600;
 }
-
-
-
 </style>

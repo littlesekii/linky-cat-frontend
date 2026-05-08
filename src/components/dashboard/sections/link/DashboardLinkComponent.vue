@@ -3,12 +3,20 @@ import DraggableSVG from '@/assets/icons/DraggableSVG.vue';
 import EditSVG from '@/assets/icons/EditSVG.vue';
 import TrashSVG from '@/assets/icons/TrashSVG.vue';
 import type { LinkResponse } from '@/types/dto/LinkDTO';
+import { ref } from 'vue';
 
-defineProps<{
+const props = defineProps<{
   link: LinkResponse
 }>();
 
-const emit = defineEmits(['delete']);
+const emit = defineEmits(['delete', 'changeIsActive']);
+
+const isActive = ref(props.link.isActive);
+
+function onOptionActiveClick() {
+  isActive.value = !isActive.value;
+  emit('changeIsActive', isActive.value);
+}
 
 </script>
 
@@ -22,14 +30,14 @@ const emit = defineEmits(['delete']);
     <div class="link-property-row">
       <button class="link-property">
         <p class="link-title">{{ link.title }}</p>
-        <EditSVG size="14" />
+        <EditSVG size="16" />
       </button>
     </div>
 
     <div class="link-property-row">
       <button class="link-property">
         <p class="link-url">{{ link.url }}</p>
-        <EditSVG size="14" />
+        <EditSVG size="16" />
       </button>
     </div>
 
@@ -41,9 +49,15 @@ const emit = defineEmits(['delete']);
 
   </div>
   <div class="link-options">
+    <button class="option-active" @click.prevent="onOptionActiveClick">
+      <div class="switch-container" :class="isActive ? 'switch-active' : ''">
+        <div class="switch-pin"></div>
+      </div>
+    </button>
     <button class="option-delete">
       <TrashSVG size="18" @click="emit('delete')" />
     </button>
+
   </div>
 </div>
 </template>
@@ -123,7 +137,41 @@ button {
 
 .link-options {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+
+  justify-content: space-between;
   align-items: center;
+}
+
+.switch-container {
+  width: 36px;
+  height: 18px;
+
+  display: flex;
+  align-items: center;
+
+  background-color: var(--lc-black-soft);
+
+  border-radius: 1em;
+}
+
+.switch-pin {
+  height: 14px;
+  width: 14px;
+
+  margin: 2px;
+
+  background-color: var(--color-background);
+  transition: all 0.1s ease;
+
+  border-radius: 100%;
+}
+
+.switch-active {
+  background-color: var(--color-success);
+}
+
+.switch-active > .switch-pin {
+  translate: 18px;
 }
 </style>
