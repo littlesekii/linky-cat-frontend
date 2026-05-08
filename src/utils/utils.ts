@@ -1,5 +1,5 @@
 export const utils = {
-  debounce<T extends (...args: unknown[]) => void>(
+  debounce<T extends (...args: never[]) => void>(
     func: T,
     delay: number
   ) {
