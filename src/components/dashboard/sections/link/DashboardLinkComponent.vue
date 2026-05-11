@@ -9,7 +9,7 @@ const props = defineProps<{
   link: LinkResponse
 }>();
 
-const emit = defineEmits(['delete', 'changeIsActive']);
+const emit = defineEmits(['delete', 'edit', 'changeIsActive']);
 
 const isActive = ref(props.link.isActive);
 
@@ -28,14 +28,14 @@ function onOptionActiveClick() {
   <div class="link-properties-grid">
 
     <div class="link-property-row">
-      <button class="link-property">
+      <button class="link-property" @click="emit('edit', 'title')">
         <p class="link-title">{{ link.title }}</p>
         <EditSVG size="16" />
       </button>
     </div>
 
     <div class="link-property-row">
-      <button class="link-property">
+      <button class="link-property" @click="emit('edit', 'url')">
         <p class="link-url">{{ link.url }}</p>
         <EditSVG size="16" />
       </button>

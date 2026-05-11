@@ -6,16 +6,11 @@ import { useLink } from '@/composables/useLink';
 import type { LinkCreateRequest, LinkUpdateRequest } from '@/types/dto/LinkDTO';
 import { ApiError } from '@/types/error/ApiError';
 import { ERROR_MESSAGE } from '@/utils/messages/error';
-import { onMounted, onUnmounted, onUpdated, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 const props = defineProps<{
   linkId?: string,
-  initialData?: {
-    title: string,
-    url: string,
-    sortOrder: number,
-    isActive: boolean
-  }
+  existingData?: LinkUpdateRequest
 }>();
 
 const emit = defineEmits(['close', 'submit']);
@@ -31,6 +26,8 @@ const inputData = ref<LinkCreateRequest | LinkUpdateRequest>({
   isActive: true
 });
 
+const modalTitle = computed(() => props.linkId ? 'Edit link' : 'Add new link');
+
 function resetForm() {
   errorMessage.value = '';
   inputData.value = {
@@ -43,6 +40,10 @@ function resetForm() {
 
 onMounted(() => {
   resetForm();
+
+  if (props.linkId) {
+    inputData.value = { ...props.existingData };
+  }
 });
 
 async function onSubmit() {
@@ -70,7 +71,7 @@ async function onSubmit() {
 </script>
 
 <template>
-<BaseModalComponent title="Add new link" :is-open="true" @close="emit('close')">
+<BaseModalComponent :title="modalTitle" :is-open="true" @close="emit('close')">
 
   <form class="modal-form" @submit.prevent="onSubmit">
     <div class="inputs">

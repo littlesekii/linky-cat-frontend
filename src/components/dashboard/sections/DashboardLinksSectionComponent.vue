@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import BaseButtonComponent from '@/components/common/BaseButtonComponent.vue';
+import BaseConfirmationDialogComponent from '@/components/common/BaseConfirmationDialogComponent.vue';
 import { useDashboard } from '@/composables/useDashboard';
 import { useLink } from '@/composables/useLink';
+import { utils } from '@/utils/utils';
 import { onMounted, ref } from 'vue';
 import DashboardLinkComponent from './link/DashboardLinkComponent.vue';
 import DashboardLinkModalComponent from './link/DashboardLinkModalComponent.vue';
-import { utils } from '@/utils/utils';
+import type { LinkResponse, LinkUpdateRequest } from '@/types/dto/LinkDTO';
 
 const { fetchDashboardLinks, dashboardLinks, isLoading } = useDashboard();
 const { remove, update } = useLink();
@@ -16,29 +18,54 @@ onMounted(() => {
 
 const isProfileModalOpen = ref(false);
 const isLinkModalOpen = ref(false);
+const isLinkDeleteConfirmationOpen = ref(false);
+
+const currentEditingLinkId = ref<string | undefined>('');
+const currentEditingLink = ref<LinkUpdateRequest>();
+
+const currentDeletingLinkId = ref('');
 
 const errorMessage = ref('');
 
 const openProfileModal = () => isProfileModalOpen.value = true;
 const closeProfileModal = () => isProfileModalOpen.value = false;
+
 const openLinkModal = () => isLinkModalOpen.value = true;
-const closeLinkModal = () => isLinkModalOpen.value = false;
+const closeLinkModal = () => {
+  currentEditingLinkId.value = undefined;
+  currentEditingLink.value = undefined;
+  isLinkModalOpen.value = false;
+};
+
+const openLinkModalEdit = (field: 'title' | 'url', linkId: string, link: LinkResponse) => {
+  currentEditingLinkId.value = linkId;
+  currentEditingLink.value = link;
+  isLinkModalOpen.value = true;
+};
+
+const openLinkDeleteConfirmation = (linkId: string) => {
+  isLinkDeleteConfirmationOpen.value = true;
+  currentDeletingLinkId.value = linkId;
+};
+const closeLinkDeleteConfirmation = () => isLinkDeleteConfirmationOpen.value = false;
+
 
 async function onLinkModalSubmit() {
   await fetchDashboardLinks();
   closeLinkModal();
 }
 
-async function onLinkDelete(linkId: string) {
-  await remove(linkId);
+async function onLinkDelete() {
+  await remove(currentDeletingLinkId.value);
   await fetchDashboardLinks();
+  closeLinkDeleteConfirmation();
 }
 
 const onLinkChangeIsActive = async (linkId: string, isActive: boolean) => {
   await update(linkId, { isActive });
 };
 
-const debouncedChangeIsActive = utils.debounce(onLinkChangeIsActive, 500);
+const debouncedChangeIsActive = utils.debounce(onLinkChangeIsActive, 600);
 
 </script>
 
@@ -47,7 +74,20 @@ const debouncedChangeIsActive = utils.debounce(onLinkChangeIsActive, 500);
   <div class="dashboard-container">
     <h1 class="title">Links</h1>
 
-    <DashboardLinkModalComponent v-if="isLinkModalOpen" @submit="onLinkModalSubmit" @close="closeLinkModal" />
+    <BaseConfirmationDialogComponent
+      v-if="isLinkDeleteConfirmationOpen"
+      title="Delete Link?"
+      confirm-text="Delete"
+      @confirm="onLinkDelete"
+      @close="closeLinkDeleteConfirmation"
+    />
+    <DashboardLinkModalComponent
+      v-if="isLinkModalOpen"
+      :link-id="currentEditingLinkId"
+      :existing-data="currentEditingLink"
+      @submit="onLinkModalSubmit"
+      @close="closeLinkModal"
+    />
 
     <BaseButtonComponent label="Add new" @click="openLinkModal"/>
 
@@ -56,7 +96,8 @@ const debouncedChangeIsActive = utils.debounce(onLinkChangeIsActive, 500);
       :key="link.id"
       :link="link"
 
-      @delete="onLinkDelete(link.id ?? '')"
+      @delete="openLinkDeleteConfirmation(link.id ?? '')"
+      @edit="(field) => openLinkModalEdit(field, link.id ?? '', link)"
       @change-is-active="(isActive) => debouncedChangeIsActive(link.id ?? '', isActive)"
     />
   </div>
