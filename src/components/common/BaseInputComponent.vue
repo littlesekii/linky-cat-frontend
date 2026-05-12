@@ -26,6 +26,14 @@ const inputClasses = computed(() => ({
   'label-moved' : !props.fixedLabel && (isFocused.value || model.value && model.value.length > 0)
 }));
 
+const setFocus = () => {
+  if (inputId.value) {
+    document.getElementById(inputId.value)?.focus();
+  }
+};
+
+defineExpose({ setFocus });
+
 </script>
 
 <template>

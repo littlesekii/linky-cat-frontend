@@ -4,7 +4,7 @@ import BaseConfirmationDialogComponent from '@/components/common/BaseConfirmatio
 import { useDashboard } from '@/composables/useDashboard';
 import { useLink } from '@/composables/useLink';
 import { utils } from '@/utils/utils';
-import { onMounted, ref } from 'vue';
+import { computed, nextTick, onMounted, onUpdated, ref, useTemplateRef } from 'vue';
 import DashboardLinkComponent from './link/DashboardLinkComponent.vue';
 import DashboardLinkModalComponent from './link/DashboardLinkModalComponent.vue';
 import type { LinkResponse, LinkUpdateRequest } from '@/types/dto/LinkDTO';
@@ -20,6 +20,8 @@ const isProfileModalOpen = ref(false);
 const isLinkModalOpen = ref(false);
 const isLinkDeleteConfirmationOpen = ref(false);
 
+const linkModal = useTemplateRef('link-modal');
+
 const currentEditingLinkId = ref<string | undefined>('');
 const currentEditingLink = ref<LinkUpdateRequest>();
 
@@ -31,17 +33,18 @@ const openProfileModal = () => isProfileModalOpen.value = true;
 const closeProfileModal = () => isProfileModalOpen.value = false;
 
 const openLinkModal = () => isLinkModalOpen.value = true;
-const closeLinkModal = () => {
-  currentEditingLinkId.value = undefined;
-  currentEditingLink.value = undefined;
-  isLinkModalOpen.value = false;
+const openLinkModalCreate = async () => {
+  openLinkModal();
+  await nextTick();
+  linkModal.value?.prepareModalCreate();
+};
+const openLinkModalEdit = async (linkId: string, link: LinkResponse, field: 'title' | 'url') => {
+  openLinkModal();
+  await nextTick();
+  linkModal.value?.prepareModalEdit(linkId, link, field);
 };
 
-const openLinkModalEdit = (field: 'title' | 'url', linkId: string, link: LinkResponse) => {
-  currentEditingLinkId.value = linkId;
-  currentEditingLink.value = link;
-  isLinkModalOpen.value = true;
-};
+const closeLinkModal = () => isLinkModalOpen.value = false;
 
 const openLinkDeleteConfirmation = (linkId: string) => {
   isLinkDeleteConfirmationOpen.value = true;
@@ -83,13 +86,12 @@ const debouncedChangeIsActive = utils.debounce(onLinkChangeIsActive, 600);
     />
     <DashboardLinkModalComponent
       v-if="isLinkModalOpen"
-      :link-id="currentEditingLinkId"
-      :existing-data="currentEditingLink"
+      ref="link-modal"
       @submit="onLinkModalSubmit"
       @close="closeLinkModal"
     />
 
-    <BaseButtonComponent label="Add new" @click="openLinkModal"/>
+    <BaseButtonComponent label="Add new" @click="openLinkModalCreate"/>
 
     <DashboardLinkComponent
       v-for="link in dashboardLinks?.links"
@@ -97,7 +99,7 @@ const debouncedChangeIsActive = utils.debounce(onLinkChangeIsActive, 600);
       :link="link"
 
       @delete="openLinkDeleteConfirmation(link.id ?? '')"
-      @edit="(field) => openLinkModalEdit(field, link.id ?? '', link)"
+      @edit="(field) => openLinkModalEdit(link.id ?? '', link, field)"
       @change-is-active="(isActive) => debouncedChangeIsActive(link.id ?? '', isActive)"
     />
   </div>

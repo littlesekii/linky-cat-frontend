@@ -3,14 +3,15 @@ import BaseButtonComponent from '@/components/common/BaseButtonComponent.vue';
 import BaseInputComponent from '@/components/common/BaseInputComponent.vue';
 import BaseModalComponent from '@/components/common/BaseModalComponent.vue';
 import { useLink } from '@/composables/useLink';
-import type { LinkCreateRequest, LinkUpdateRequest } from '@/types/dto/LinkDTO';
+import type { LinkCreateRequest, LinkResponse, LinkUpdateRequest } from '@/types/dto/LinkDTO';
 import { ApiError } from '@/types/error/ApiError';
 import { ERROR_MESSAGE } from '@/utils/messages/error';
-import { computed, onMounted, ref } from 'vue';
+import { computed, nextTick, ref, useTemplateRef } from 'vue';
 
-const props = defineProps<{
-  linkId?: string,
-  existingData?: LinkUpdateRequest
+
+const editData = ref<{
+  linkId: string,
+  link: LinkUpdateRequest
 }>();
 
 const emit = defineEmits(['close', 'submit']);
@@ -26,7 +27,10 @@ const inputData = ref<LinkCreateRequest | LinkUpdateRequest>({
   isActive: true
 });
 
-const modalTitle = computed(() => props.linkId ? 'Edit link' : 'Add new link');
+const titleInputRef = useTemplateRef('title-input');
+const urlInputRef = useTemplateRef('url-input');
+
+const modalTitle = computed(() => editData.value?.linkId ? 'Edit link' : 'Add new link');
 
 function resetForm() {
   errorMessage.value = '';
@@ -38,22 +42,14 @@ function resetForm() {
   };
 }
 
-onMounted(() => {
-  resetForm();
-
-  if (props.linkId) {
-    inputData.value = { ...props.existingData };
-  }
-});
-
 async function onSubmit() {
 
   const body = { ...inputData.value };
 
   isLoading.value = true;
   try {
-    if (props.linkId) {
-      await update(props.linkId, body as LinkUpdateRequest);
+    if (editData.value) {
+      await update(editData.value.linkId, body as LinkUpdateRequest);
     } else {
       await create(body as LinkCreateRequest);
     }
@@ -68,6 +64,32 @@ async function onSubmit() {
   }
 }
 
+const prepareModalCreate = () => {
+  editData.value = undefined;
+  resetForm();
+};
+
+const prepareModalEdit = async (linkId: string, link: LinkResponse, field: 'title' | 'url') => {
+  editData.value = {
+    linkId,
+    link
+  };
+  resetForm();
+
+  if (editData.value) {
+    inputData.value = { ...editData.value.link };
+  }
+
+  await nextTick(); //
+  if (field === 'title') {
+    titleInputRef.value?.setFocus();
+  }
+  if (field === 'url') {
+    urlInputRef.value?.setFocus();
+  }
+};
+defineExpose({ prepareModalCreate, prepareModalEdit });
+
 </script>
 
 <template>
@@ -75,8 +97,8 @@ async function onSubmit() {
 
   <form class="modal-form" @submit.prevent="onSubmit">
     <div class="inputs">
-      <BaseInputComponent label="Title" v-model="inputData.title" :error-message="errorMessage" />
-      <BaseInputComponent label="Url" v-model="inputData.url" />
+      <BaseInputComponent label="Title" ref="title-input" v-model="inputData.title" :error-message="errorMessage" />
+      <BaseInputComponent label="Url" ref="url-input" v-model="inputData.url" />
     </div>
     <BaseButtonComponent v-if="!isLoading" label="Save" type="submit" :disabled="false" />
     <img v-else class="loading-icon" src="@/assets/loading.svg">
@@ -84,7 +106,6 @@ async function onSubmit() {
 
 </BaseModalComponent>
 </template>
-
 
 <style scoped>
 .modal-form {
