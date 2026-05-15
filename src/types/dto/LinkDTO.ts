@@ -21,3 +21,8 @@ export interface LinkUpdateRequest {
   isActive?: boolean
 }
 
+export interface LinkReorderRequest {
+  id?: string,
+  sortOrder?: number,
+}
+

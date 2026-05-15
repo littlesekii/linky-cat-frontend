@@ -1,5 +1,5 @@
 import { linkService } from '@/api/services/linkService';
-import type { LinkCreateRequest, LinkUpdateRequest } from '@/types/dto/LinkDTO';
+import type { LinkCreateRequest, LinkReorderRequest, LinkUpdateRequest } from '@/types/dto/LinkDTO';
 import { readonly, ref } from 'vue';
 
 
@@ -26,6 +26,16 @@ export const useLink = () => {
     }
   };
 
+  const reorder = async (req: LinkReorderRequest[]) => {
+    isLoading.value = true;
+
+    try {
+      await linkService.reorder(req);
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
   const remove = async (linkId: string) => {
     isLoading.value = true;
 
@@ -40,6 +50,7 @@ export const useLink = () => {
     isLoading: readonly(isLoading),
     create,
     update,
+    reorder,
     remove
   };
 };

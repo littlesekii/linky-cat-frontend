@@ -22,7 +22,7 @@ function onOptionActiveClick() {
 
 <template>
 <div class="link-wrapper">
-  <div class="link-drag">
+  <div class="link-drag drag-handle">
     <DraggableSVG size="16" />
   </div>
   <div class="link-properties-grid">

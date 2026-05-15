@@ -3,18 +3,30 @@ import BaseButtonComponent from '@/components/common/BaseButtonComponent.vue';
 import BaseConfirmationDialogComponent from '@/components/common/BaseConfirmationDialogComponent.vue';
 import { useDashboard } from '@/composables/useDashboard';
 import { useLink } from '@/composables/useLink';
+import type { LinkReorderRequest, LinkResponse, LinkUpdateRequest } from '@/types/dto/LinkDTO';
 import { utils } from '@/utils/utils';
-import { computed, nextTick, onMounted, onUpdated, ref, useTemplateRef } from 'vue';
+import { nextTick, onMounted, ref, useTemplateRef, watch } from 'vue';
 import DashboardLinkComponent from './link/DashboardLinkComponent.vue';
 import DashboardLinkModalComponent from './link/DashboardLinkModalComponent.vue';
-import type { LinkResponse, LinkUpdateRequest } from '@/types/dto/LinkDTO';
+import draggableComponent from 'vuedraggable';
 
 const { fetchDashboardLinks, dashboardLinks, isLoading } = useDashboard();
-const { remove, update } = useLink();
+const { remove, update, reorder } = useLink();
 
-onMounted(() => {
-  fetchDashboardLinks();
+onMounted( async () => {
+  await fetchDashboardLinks();
+  console.log(dashboardLinks.value);
 });
+
+const localLinks = ref<LinkResponse[]>([]);
+watch(() => dashboardLinks.value,
+  (newValue) => {
+    if (newValue) {
+      localLinks.value = [...newValue.links];
+    }
+  },
+  { immediate: true}
+);
 
 const isProfileModalOpen = ref(false);
 const isLinkModalOpen = ref(false);
@@ -68,6 +80,21 @@ const onLinkChangeIsActive = async (linkId: string, isActive: boolean) => {
   await update(linkId, { isActive });
 };
 
+const onLinkOrderChange = async () => {
+
+  const body: LinkReorderRequest[] = [];
+  console.log(localLinks.value);
+  for(let i: number = 0; i < localLinks.value.length; i++) {
+    const currentId = localLinks.value[localLinks.value.length - 1 - i]?.id;
+    body.push({
+      id: currentId,
+      sortOrder: i
+    });
+  }
+
+  await reorder(body);
+};
+
 const debouncedChangeIsActive = utils.debounce(onLinkChangeIsActive, 600);
 
 </script>
@@ -93,15 +120,26 @@ const debouncedChangeIsActive = utils.debounce(onLinkChangeIsActive, 600);
 
     <BaseButtonComponent label="Add new" @click="openLinkModalCreate"/>
 
-    <DashboardLinkComponent
-      v-for="link in dashboardLinks?.links"
-      :key="link.id"
-      :link="link"
+      <draggableComponent
+        v-model="localLinks"
+        item-key="id"
+        handle=".drag-handle"
 
-      @delete="openLinkDeleteConfirmation(link.id ?? '')"
-      @edit="(field) => openLinkModalEdit(link.id ?? '', link, field)"
-      @change-is-active="(isActive) => debouncedChangeIsActive(link.id ?? '', isActive)"
-    />
+        class="links-container"
+        :animation="260"
+        @end="onLinkOrderChange"
+      >
+        <template #item="{element: link}">
+          <DashboardLinkComponent
+            :link="link"
+
+            @delete="openLinkDeleteConfirmation(link.id ?? '')"
+            @edit="(field) => openLinkModalEdit(link.id ?? '', link, field)"
+            @change-is-active="(isActive) => debouncedChangeIsActive(link.id ?? '', isActive)"
+          />
+        </template>
+      </draggableComponent>
+
   </div>
   <!-- <div class="preview">
     <iframe src="http://localhost:2001/littlesekii"></iframe>
@@ -145,5 +183,11 @@ const debouncedChangeIsActive = utils.debounce(onLinkChangeIsActive, 600);
   color: var(--color-text);
   font-size: 24px;
   font-weight: 600;
+}
+
+.links-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 </style>
