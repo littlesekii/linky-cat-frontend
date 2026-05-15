@@ -10,7 +10,7 @@ const request = async <ResultType>(
   url: string,
   method: HttpMethod,
   body?: unknown,
-  autoAbort = true
+  autoAbort = false
 ): Promise<ResultType> => {
   const authStore = useAuthStore();
   const requestKey = `${method}:${BASE_URL + url}`;
