@@ -13,8 +13,17 @@ const emit = defineEmits(['close']);
 
 <template>
 <Teleport to="body">
-  <div v-if="isOpen" class="modal-wrapper" @mousedown.self="emit('close')">
-    <FocusTrap :active="isOpen">
+  <FocusTrap
+    :active="isOpen"
+    :escape-deactivates="true"
+    :return-focus-on-deactivate="false"
+    @deactivate="emit('close')"
+  >
+    <div
+      v-if="isOpen"
+      class="modal-wrapper"
+      @mousedown.self="emit('close')"
+    >
       <div class="modal-container">
 
         <div class="modal-header">
@@ -31,8 +40,8 @@ const emit = defineEmits(['close']);
           <slot></slot>
         </div>
       </div>
-    </FocusTrap>
-  </div>
+    </div>
+  </FocusTrap>
 </Teleport>
 </template>
 
