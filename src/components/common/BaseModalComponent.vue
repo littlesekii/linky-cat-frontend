@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CrossSVG from '@/assets/icons/CrossSVG.vue';
+import { FocusTrap } from 'focus-trap-vue';
 
 defineProps<{
   title: string,
@@ -7,28 +8,30 @@ defineProps<{
 }>();
 
 const emit = defineEmits(['close']);
+
 </script>
 
 <template>
 <Teleport to="body">
   <div v-if="isOpen" class="modal-wrapper" @mousedown.self="emit('close')">
-    <div class="modal-container">
+    <FocusTrap :active="isOpen">
+      <div class="modal-container">
 
-      <div class="modal-header">
-        <div style="width: 2rem; height: inherit;"></div>
-        <h2 class="modal-title">
-          {{ title }}
-        </h2>
-        <div class="modal-close-button" @click="emit('close')">
-          <CrossSVG :size="24"/>
+        <div class="modal-header">
+          <div style="width: 2rem; height: inherit;"></div>
+          <h2 class="modal-title">
+            {{ title }}
+          </h2>
+          <button class="modal-close-button" @click="emit('close')">
+            <CrossSVG :size="24"/>
+          </button>
+        </div>
+
+        <div class="modal-content">
+          <slot></slot>
         </div>
       </div>
-
-      <div class="modal-content">
-        <slot></slot>
-      </div>
-
-    </div>
+    </FocusTrap>
   </div>
 </Teleport>
 </template>
@@ -95,6 +98,9 @@ const emit = defineEmits(['close']);
   justify-content: center;
   align-items: center;
 
+  background: none;
+
+  border: none;
   border-radius: 10px;
 
   cursor: pointer;

@@ -54,8 +54,8 @@ function onOptionActiveClick() {
         <div class="switch-pin"></div>
       </div>
     </button>
-    <button class="option-delete">
-      <TrashSVG size="18" @click="emit('delete')" />
+    <button class="option-delete" @click="emit('delete')">
+      <TrashSVG size="18" />
     </button>
 
   </div>
