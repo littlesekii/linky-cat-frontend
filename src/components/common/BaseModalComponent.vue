@@ -32,7 +32,7 @@ const emit = defineEmits(['close']);
             {{ title }}
           </h2>
           <button class="modal-close-button" @click="emit('close')">
-            <CrossSVG :size="24"/>
+            <CrossSVG :size="18"/>
           </button>
         </div>
 

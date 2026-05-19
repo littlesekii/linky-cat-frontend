@@ -30,14 +30,14 @@ function onOptionActiveClick() {
     <div class="link-property-row">
       <button class="link-property" @click="emit('edit', 'title')">
         <p class="link-title">{{ link.title }}</p>
-        <EditSVG size="16" />
+        <EditSVG size="12" />
       </button>
     </div>
 
     <div class="link-property-row">
       <button class="link-property" @click="emit('edit', 'url')">
         <p class="link-url">{{ link.url }}</p>
-        <EditSVG size="16" />
+        <EditSVG size="12" />
       </button>
     </div>
 
@@ -55,7 +55,7 @@ function onOptionActiveClick() {
       </div>
     </button>
     <button class="option-delete" @click="emit('delete')">
-      <TrashSVG size="18" />
+      <TrashSVG size="16" />
     </button>
 
   </div>
@@ -109,7 +109,7 @@ button {
 .link-property {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 7px;
 
   font-size: 14px;
   color: var(--color-text);

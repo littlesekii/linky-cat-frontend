@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import HomeSVG from '@/assets/icons/HomeSVG.vue';
 import LinkSVG from '@/assets/icons/LinkSVG.vue';
+import ProfileSVG from '@/assets/icons/ProfileSVG.vue';
 
 
 </script>
@@ -8,8 +8,8 @@ import LinkSVG from '@/assets/icons/LinkSVG.vue';
 <template>
 <aside class="sidebar-wrapper">
   <nav class="navigator">
-    <button class="button"><HomeSVG size="25" /> Home page</button>
-    <button class="button"><LinkSVG size="25" /> Links</button>
+    <button class="button"><ProfileSVG size="18" /> Profile</button>
+    <button class="button"><LinkSVG size="18" /> Links</button>
     <!-- <button class="button">Style</button> -->
   </nav>
 </aside>
