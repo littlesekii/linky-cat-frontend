@@ -6,8 +6,8 @@ import { useLink } from '@/composables/useLink';
 import type { LinkReorderRequest, LinkResponse, LinkUpdateRequest } from '@/types/dto/LinkDTO';
 import { utils } from '@/utils/utils';
 import { nextTick, onMounted, ref, useTemplateRef, watch } from 'vue';
-import DashboardLinkComponent from './link/DashboardLinkComponent.vue';
-import DashboardLinkModalComponent from './link/DashboardLinkModalComponent.vue';
+import DashboardLinksLinkComponent from './links/DashboardLinksLinkComponent.vue';
+import DashboardLinksLinkModalComponent from './links/DashboardLinksLinkModalComponent.vue';
 import draggableComponent from 'vuedraggable';
 
 const { fetchDashboardLinks, dashboardLinks, isLoading } = useDashboard();
@@ -55,7 +55,6 @@ const openLinkModalEdit = async (linkId: string, link: LinkResponse, field: 'tit
   await nextTick();
   linkModal.value?.prepareModalEdit(linkId, link, field);
 };
-
 const closeLinkModal = () => isLinkModalOpen.value = false;
 
 const openLinkDeleteConfirmation = (linkId: string) => {
@@ -83,7 +82,6 @@ const onLinkChangeIsActive = async (linkId: string, isActive: boolean) => {
 const onLinkOrderChange = async () => {
 
   const body: LinkReorderRequest[] = [];
-  console.log(localLinks.value);
   for(let i: number = 0; i < localLinks.value.length; i++) {
     const currentId = localLinks.value[localLinks.value.length - 1 - i]?.id;
     body.push({
@@ -111,7 +109,7 @@ const debouncedChangeIsActive = utils.debounce(onLinkChangeIsActive, 600);
       @confirm="onLinkDelete"
       @close="closeLinkDeleteConfirmation"
     />
-    <DashboardLinkModalComponent
+    <DashboardLinksLinkModalComponent
       v-if="isLinkModalOpen"
       ref="link-modal"
       @submit="onLinkModalSubmit"
@@ -130,7 +128,7 @@ const debouncedChangeIsActive = utils.debounce(onLinkChangeIsActive, 600);
         @end="onLinkOrderChange"
       >
         <template #item="{element: link}">
-          <DashboardLinkComponent
+          <DashboardLinksLinkComponent
             :link="link"
 
             @delete="openLinkDeleteConfirmation(link.id ?? '')"
