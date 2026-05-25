@@ -9,6 +9,10 @@ import { nextTick, onMounted, ref, useTemplateRef, watch } from 'vue';
 import DashboardLinksLinkComponent from './links/DashboardLinksLinkComponent.vue';
 import DashboardLinksLinkModalComponent from './links/DashboardLinksLinkModalComponent.vue';
 import draggableComponent from 'vuedraggable';
+import DashboardLinksProfileComponent from './links/DashboardLinksProfileComponent.vue';
+import DashboardLinksProfileModalComponent from './links/DashboardLinksProfileModalComponent.vue';
+import type { ProfileResponse } from '@/types/dto/ProfileDTO';
+
 
 const { fetchDashboardLinks, dashboardLinks, isLoading } = useDashboard();
 const { remove, update, reorder } = useLink();
@@ -33,15 +37,18 @@ const isLinkModalOpen = ref(false);
 const isLinkDeleteConfirmationOpen = ref(false);
 
 const linkModal = useTemplateRef('link-modal');
-
-const currentEditingLinkId = ref<string | undefined>('');
-const currentEditingLink = ref<LinkUpdateRequest>();
+const profileModal = useTemplateRef('profile-modal');
 
 const currentDeletingLinkId = ref('');
 
 const errorMessage = ref('');
 
 const openProfileModal = () => isProfileModalOpen.value = true;
+const openProfileModalEdit = async (profileId: string, profile: ProfileResponse, field: 'displayName' | 'bio' ) => {
+  openProfileModal();
+  await nextTick();
+  profileModal.value?.prepareModalEdit(profileId, profile, field);
+};
 const closeProfileModal = () => isProfileModalOpen.value = false;
 
 const openLinkModal = () => isLinkModalOpen.value = true;
@@ -63,6 +70,10 @@ const openLinkDeleteConfirmation = (linkId: string) => {
 };
 const closeLinkDeleteConfirmation = () => isLinkDeleteConfirmationOpen.value = false;
 
+async function onProfileModalSubmit() {
+  await fetchDashboardLinks();
+  closeProfileModal();
+}
 
 async function onLinkModalSubmit() {
   await fetchDashboardLinks();
@@ -98,9 +109,22 @@ const debouncedChangeIsActive = utils.debounce(onLinkChangeIsActive, 600);
 </script>
 
 <template>
-<section class="dashboard-section">
-  <div class="dashboard-container">
+<section class="section-wrapper">
+  <!-- <header class="section-header">
     <h1 class="title">Links</h1>
+  </header> -->
+
+  <div class="section-container">
+
+
+
+    <DashboardLinksProfileComponent
+      :profile="{ displayName: dashboardLinks?.displayName, bio: dashboardLinks?.bio }"
+      @edit="(field) => openProfileModalEdit(
+        dashboardLinks?.profileId ?? '',
+        { displayName: dashboardLinks?.displayName, bio: dashboardLinks?.bio },
+         field)"
+    />
 
     <BaseConfirmationDialogComponent
       v-if="isLinkDeleteConfirmationOpen"
@@ -114,6 +138,12 @@ const debouncedChangeIsActive = utils.debounce(onLinkChangeIsActive, 600);
       ref="link-modal"
       @submit="onLinkModalSubmit"
       @close="closeLinkModal"
+    />
+    <DashboardLinksProfileModalComponent
+      v-if="isProfileModalOpen"
+      ref="profile-modal"
+      @submit="onProfileModalSubmit"
+      @close="closeProfileModal"
     />
 
     <BaseButtonComponent label="Add new" @click="openLinkModalCreate"/>
@@ -147,12 +177,25 @@ const debouncedChangeIsActive = utils.debounce(onLinkChangeIsActive, 600);
 
 
 <style scoped>
-.dashboard-section {
+.section-wrapper {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   background-color: var(--color-highlight);
   overflow-y: auto;
 }
-.dashboard-container {
-  padding: 30px;
+
+.section-header {
+  width: 100%;
+  padding: 20px;
+  border-bottom: 1px solid var(--lc-white-softer);
+}
+.section-container {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
 
   flex-grow: 1;
   display: flex;

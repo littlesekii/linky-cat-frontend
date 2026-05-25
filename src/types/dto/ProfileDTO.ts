@@ -7,3 +7,8 @@ export interface ProfileResponse {
   profileViews?: number;
   links?: LinkResponse[];
 }
+
+export interface ProfileUpdateRequest {
+  displayName?: string;
+  bio?: string;
+}

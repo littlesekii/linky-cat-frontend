@@ -1,4 +1,5 @@
 import { profileService } from '@/api/services/profileService';
+import type { ProfileUpdateRequest } from '@/types/dto/ProfileDTO';
 import { ApiError } from '@/types/error/ApiError';
 import type { Profile } from '@/types/types';
 import { readonly, ref } from 'vue';
@@ -22,9 +23,20 @@ export const useProfile = () => {
     }
   };
 
+  const update = async (profileId: string, req: ProfileUpdateRequest) => {
+    isLoading.value = true;
+
+    try {
+      await profileService.update(profileId, req);
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
   return {
     profile: readonly(profile),
     isLoading: readonly(isLoading),
-    fetchByUsername
+    fetchByUsername,
+    update
   };
 };
