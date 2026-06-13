@@ -32,10 +32,21 @@ export const useProfile = () => {
     }
   };
 
+  const updateImage = async (profileId: string, req: FormData) => {
+    isLoading.value = true;
+
+    try {
+      await profileService.updateImage(profileId, req);
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
   return {
     profile: readonly(profile),
     isLoading: readonly(isLoading),
     fetchByUsername,
-    update
+    update,
+    updateImage
   };
 };

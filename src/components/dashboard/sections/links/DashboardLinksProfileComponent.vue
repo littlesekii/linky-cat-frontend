@@ -1,17 +1,36 @@
 <script setup lang="ts">
 import type { ProfileResponse } from '@/types/dto/ProfileDTO';
+import { useTemplateRef } from 'vue';
 
 const props = defineProps<{
   profile: ProfileResponse
 }>();
 
-const emit = defineEmits(['edit']);
+const fileInput = useTemplateRef('file-input');
 
+const emit = defineEmits(['edit', 'changeProfileImage']);
+
+function onFileInputChange(event: Event) {
+  const target = event.target as HTMLInputElement;
+  const files = target.files;
+
+  if (files && files.length > 0) {
+    const selectedFile = files[0];
+    emit('changeProfileImage', selectedFile);
+  }
+}
 </script>
 
 <template>
 <div class="profile-wrapper">
-  <div class="profile-image"></div>
+  <div class="profile-image" @click="fileInput?.click" :style="`background-image: url('${props.profile.imageUrl}')`"></div>
+  <input
+      ref="file-input"
+      type="file"
+      accept="image/*"
+      @change="onFileInputChange"
+      v-show="false"
+    />
 
   <div class="profile-properties-grid">
     <div class="profile-property-row">
@@ -58,7 +77,6 @@ button:hover {
   width: 76px;
   height: 76px;
 
-  background-image: url('@/assets/profile.jpg');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;

@@ -10,7 +10,7 @@ const { profile } = useProfile();
   <div class="container">
 
     <header class="header">
-      <div class="header-image"></div>
+      <div class="header-image" :style="`background-image: url('${profile?.imageUrl}');`"></div>
       <div class="header-info">
         <h1 class="header-info-name">
           {{ profile?.displayName }}
@@ -95,7 +95,6 @@ const { profile } = useProfile();
 
   border-radius: 100%;
 
-  background-image: url("@/assets/profile.jpg");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;

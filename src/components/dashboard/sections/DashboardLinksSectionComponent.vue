@@ -3,15 +3,16 @@ import BaseButtonComponent from '@/components/common/BaseButtonComponent.vue';
 import BaseConfirmationDialogComponent from '@/components/common/BaseConfirmationDialogComponent.vue';
 import { useDashboard } from '@/composables/useDashboard';
 import { useLink } from '@/composables/useLink';
-import type { LinkReorderRequest, LinkResponse, LinkUpdateRequest } from '@/types/dto/LinkDTO';
+import type { LinkReorderRequest, LinkResponse } from '@/types/dto/LinkDTO';
+import type { ProfileResponse } from '@/types/dto/ProfileDTO';
 import { utils } from '@/utils/utils';
 import { nextTick, onMounted, ref, useTemplateRef, watch } from 'vue';
+import draggableComponent from 'vuedraggable';
 import DashboardLinksLinkComponent from './links/DashboardLinksLinkComponent.vue';
 import DashboardLinksLinkModalComponent from './links/DashboardLinksLinkModalComponent.vue';
-import draggableComponent from 'vuedraggable';
 import DashboardLinksProfileComponent from './links/DashboardLinksProfileComponent.vue';
+import DashboardLinksProfileImageModalComponent from './links/DashboardLinksProfileImageModalComponent.vue';
 import DashboardLinksProfileModalComponent from './links/DashboardLinksProfileModalComponent.vue';
-import type { ProfileResponse } from '@/types/dto/ProfileDTO';
 
 
 const { fetchDashboardLinks, dashboardLinks, isLoading } = useDashboard();
@@ -33,11 +34,13 @@ watch(() => dashboardLinks.value,
 );
 
 const isProfileModalOpen = ref(false);
+const isProfileImageModalOpen = ref(false);
 const isLinkModalOpen = ref(false);
 const isLinkDeleteConfirmationOpen = ref(false);
 
 const linkModal = useTemplateRef('link-modal');
 const profileModal = useTemplateRef('profile-modal');
+const profileImageModal = useTemplateRef('profile-image-modal');
 
 const currentDeletingLinkId = ref('');
 
@@ -50,6 +53,14 @@ const openProfileModalEdit = async (profileId: string, profile: ProfileResponse,
   profileModal.value?.prepareModalEdit(profileId, profile, field);
 };
 const closeProfileModal = () => isProfileModalOpen.value = false;
+
+const openProfileImageModal = () => isProfileImageModalOpen.value = true;
+const openProfileImageModalEdit = async (profileId: string, image: File) => {
+  openProfileImageModal();
+  await nextTick();
+  profileImageModal.value?.prepareModalEdit(profileId, image);
+};
+const closeProfileImageModal = () => isProfileImageModalOpen.value = false;
 
 const openLinkModal = () => isLinkModalOpen.value = true;
 const openLinkModalCreate = async () => {
@@ -73,6 +84,11 @@ const closeLinkDeleteConfirmation = () => isLinkDeleteConfirmationOpen.value = f
 async function onProfileModalSubmit() {
   await fetchDashboardLinks();
   closeProfileModal();
+}
+
+async function onProfileImageModalSubmit() {
+  await fetchDashboardLinks();
+  closeProfileImageModal();
 }
 
 async function onLinkModalSubmit() {
@@ -116,23 +132,6 @@ const debouncedChangeIsActive = utils.debounce(onLinkChangeIsActive, 600);
 
   <div class="section-container">
 
-
-
-    <DashboardLinksProfileComponent
-      :profile="{ displayName: dashboardLinks?.displayName, bio: dashboardLinks?.bio }"
-      @edit="(field) => openProfileModalEdit(
-        dashboardLinks?.profileId ?? '',
-        { displayName: dashboardLinks?.displayName, bio: dashboardLinks?.bio },
-         field)"
-    />
-
-    <BaseConfirmationDialogComponent
-      v-if="isLinkDeleteConfirmationOpen"
-      title="Delete Link?"
-      confirm-text="Delete"
-      @confirm="onLinkDelete"
-      @close="closeLinkDeleteConfirmation"
-    />
     <DashboardLinksLinkModalComponent
       v-if="isLinkModalOpen"
       ref="link-modal"
@@ -145,29 +144,50 @@ const debouncedChangeIsActive = utils.debounce(onLinkChangeIsActive, 600);
       @submit="onProfileModalSubmit"
       @close="closeProfileModal"
     />
+    <DashboardLinksProfileImageModalComponent
+      v-if="isProfileImageModalOpen"
+      ref="profile-image-modal"
+      @submit="onProfileImageModalSubmit"
+      @close="closeProfileImageModal"
+    />
+    <BaseConfirmationDialogComponent
+      v-if="isLinkDeleteConfirmationOpen"
+      title="Delete link?"
+      confirm-text="Delete"
+      @confirm="onLinkDelete"
+      @close="closeLinkDeleteConfirmation"
+    />
+
+    <DashboardLinksProfileComponent
+      :profile="{ displayName: dashboardLinks?.displayName, bio: dashboardLinks?.bio, imageUrl: dashboardLinks?.imageUrl }"
+      @edit="(field) => openProfileModalEdit(
+        dashboardLinks?.profileId ?? '',
+        { displayName: dashboardLinks?.displayName, bio: dashboardLinks?.bio },
+         field)"
+      @change-profile-image="(image) => openProfileImageModalEdit(dashboardLinks?.profileId ?? '', image)"
+    />
 
     <BaseButtonComponent label="Add new" @click="openLinkModalCreate"/>
 
-      <draggableComponent
-        v-model="localLinks"
-        item-key="id"
-        handle=".drag-handle"
+    <draggableComponent
+      v-model="localLinks"
+      item-key="id"
+      handle=".drag-handle"
 
-        class="links-container"
-        :animation="260"
-        @end="onLinkOrderChange"
-      >
-        <template #item="{element: link}">
-          <DashboardLinksLinkComponent
-            :link="link"
+      class="links-container"
+      :animation="260"
+      @end="onLinkOrderChange"
+    >
+      <template #item="{element: link}">
+        <DashboardLinksLinkComponent
+          :link="link"
 
-            @delete="openLinkDeleteConfirmation(link.id ?? '')"
-            @edit="(field) => openLinkModalEdit(link.id ?? '', link, field)"
-            @change-is-active="(isActive) => debouncedChangeIsActive(link.id ?? '', isActive)"
-          />
-        </template>
-      </draggableComponent>
-
+          @delete="openLinkDeleteConfirmation(link.id ?? '')"
+          @edit="(field) => openLinkModalEdit(link.id ?? '', link, field)"
+          @change-is-active="(isActive) => debouncedChangeIsActive(link.id ?? '', isActive)"
+        />
+      </template>
+    </draggableComponent>
   </div>
   <!-- <div class="preview">
     <iframe src="http://localhost:2001/littlesekii"></iframe>

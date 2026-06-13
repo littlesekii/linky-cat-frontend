@@ -5,6 +5,7 @@ export interface ProfileResponse {
   displayName?: string;
   bio?: string;
   profileViews?: number;
+  imageUrl?: string;
   links?: LinkResponse[];
 }
 

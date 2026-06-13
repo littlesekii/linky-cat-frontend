@@ -5,5 +5,7 @@ export const profileService = {
   fetchByUsername: async (username: string) =>
     api.get<ProfileResponse>(`/api/profiles/${username}`),
   update: async (profileId: string, req: ProfileUpdateRequest) =>
-    api.patch<ProfileResponse>(`/api/profiles/${profileId}`, req)
+    api.patch<ProfileResponse>(`/api/profiles/${profileId}`, req),
+  updateImage: async (profileId: string, req: FormData) =>
+    api.patch<ProfileResponse>(`/api/profiles/${profileId}/image`, req)
 };
