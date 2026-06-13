@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { Link } from '@/types/types';
+import type { LinkResponse } from '@/types/dto/LinkDTO';
 
-defineProps<{link:Link}>();
+defineProps<{link:LinkResponse}>();
 </script>
 
 <template>

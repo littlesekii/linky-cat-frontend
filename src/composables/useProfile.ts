@@ -1,10 +1,9 @@
 import { profileService } from '@/api/services/profileService';
-import type { ProfileUpdateRequest } from '@/types/dto/ProfileDTO';
+import type { ProfileResponse, ProfileUpdateRequest } from '@/types/dto/ProfileDTO';
 import { ApiError } from '@/types/error/ApiError';
-import type { Profile } from '@/types/types';
 import { readonly, ref } from 'vue';
 
-const profile = ref<Profile | null>(null);
+const profile = ref<ProfileResponse | null>(null);
 
 export const useProfile = () => {
   const isLoading = ref(false);

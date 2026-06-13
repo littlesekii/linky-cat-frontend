@@ -24,9 +24,10 @@ const request = async <ResultType>(
 
   const currentController = pendingRequests.get(requestKey);
 
-  const headers: HeadersInit = {
-    'Content-type': 'application/json; charset=UTF-8'
-  };
+  const isFormData = body instanceof FormData;
+
+  const headers: HeadersInit = isFormData ?
+    {} : { 'Content-type': 'application/json; charset=UTF-8' };
 
   if (authStore.token) {
     headers['Authorization'] = `Bearer ${authStore.token}`;
@@ -35,7 +36,9 @@ const request = async <ResultType>(
   const payload: RequestInit = {
     method: method,
     headers,
-    body: body ? JSON.stringify(body) : undefined,
+    body: isFormData ?
+      (body as FormData) :
+      (body ? JSON.stringify(body) : undefined),
     signal: currentController?.signal
   };
 
