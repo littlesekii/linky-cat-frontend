@@ -1,8 +1,19 @@
 <script setup lang="ts">
+import { shallowRef } from 'vue';
 import DashboardHeaderComponent from './interface/DashboardHeaderComponent.vue';
 import DashboardSidebarComponent from './interface/DashboardSidebarComponent.vue';
 import DashboardLinksSectionComponent from './sections/DashboardLinksSectionComponent.vue';
+import DashboardDesignSectionComponent from './sections/DashboardDesignSectionComponent.vue';
 
+const currentSection = shallowRef(DashboardLinksSectionComponent);
+
+function onSectionChange(section: string) {
+
+  if (section === 'links')
+    currentSection.value = DashboardLinksSectionComponent;
+  if (section === 'design')
+    currentSection.value = DashboardDesignSectionComponent;
+}
 
 </script>
 
@@ -10,8 +21,10 @@ import DashboardLinksSectionComponent from './sections/DashboardLinksSectionComp
 <div class="wrapper">
   <DashboardHeaderComponent />
   <div class="dashboard-container">
-    <DashboardSidebarComponent class="dashboard-sidebar" />
-    <DashboardLinksSectionComponent class="dashboard-section" />
+    <DashboardSidebarComponent class="dashboard-sidebar" @changeSection="(section) => onSectionChange(section)" />
+    <keep-alive>
+      <component :is="currentSection" />
+    </keep-alive>
   </div>
 </div>
 </template>

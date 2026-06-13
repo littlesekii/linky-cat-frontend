@@ -1,16 +1,41 @@
 <script setup lang="ts">
 import LinkSVG from '@/assets/icons/LinkSVG.vue';
 import ProfileSVG from '@/assets/icons/ProfileSVG.vue';
+import { ref } from 'vue';
 
+const emit = defineEmits(['changeSection']);
+
+interface SidebarSection {
+  id: string;
+  label: string;
+  icon: unknown;
+}
+
+const sections: SidebarSection[] = [
+  { id: 'links', label: 'Links', icon: LinkSVG },
+  { id: 'design', label: 'Design', icon: ProfileSVG },
+];
+
+const currentSection = ref(sections[0]?.id);
+
+function onSectionChange(sectionId: string) {
+  currentSection.value = sectionId;
+  emit('changeSection', sectionId);
+}
 
 </script>
 
 <template>
 <aside class="sidebar-wrapper">
   <nav class="navigator">
-    <button class="button"><ProfileSVG size="18" /> Profile</button>
-    <button class="button"><LinkSVG size="18" /> Links</button>
-    <!-- <button class="button">Style</button> -->
+    <button
+      v-for="section in sections"
+      :key="section.id"
+      :class="['button', { 'active': currentSection === section.id }]"
+      @click="onSectionChange(section.id)"
+    >
+      <component :is="section.icon" size="18" /> {{ section.label }}
+    </button>
   </nav>
 </aside>
 </template>
@@ -50,6 +75,10 @@ import ProfileSVG from '@/assets/icons/ProfileSVG.vue';
   cursor: pointer;
 
   transition: background 0.3s ease;
+}
+.button.active {
+  background-color: var(--color-highlight);
+  font-weight: 600;
 }
 .button:hover {
   background-color: var(--color-highlight-strong);
